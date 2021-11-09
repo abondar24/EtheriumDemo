@@ -3,7 +3,7 @@
 Set of basic smart contracts.
 
 1. Counter - dummy counter
-
+2. Airlines - smart contract implementing decentralized communication between airlines using consorcium
 
 ## Build and run
 
