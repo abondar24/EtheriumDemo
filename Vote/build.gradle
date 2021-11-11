@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id "com.github.johnrengelman.shadow" version "7.0.0"
+}
+
+apply plugin: 'idea'
+apply plugin: 'application'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+group 'org.abondar.experimental.dapp.vote'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation ('io.vertx:vertx-core:4.2.0')
+    implementation ("io.vertx:vertx-web:4.2.0")
+    implementation ("io.vertx:vertx-rx-java2:4.2.0")
+    implementation("org.web3j:core:5.0.0")
+    implementation ("ch.qos.logback:logback-classic:1.2.6")
+
+    testImplementation ("org.junit.jupiter:junit-jupiter-api:5.8.1")
+    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+mainClassName = "org.abondar.experimental.dapp.vote.Main"
