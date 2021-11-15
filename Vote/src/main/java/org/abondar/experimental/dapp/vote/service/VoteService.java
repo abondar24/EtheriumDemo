@@ -1,9 +1,8 @@
-package org.abondar.experimental.dapp.vote;
+package org.abondar.experimental.dapp.vote.service;
 
-import io.reactivex.Completable;
 import io.reactivex.Maybe;
-import io.reactivex.Single;
 import io.vertx.core.json.JsonObject;
+import org.abondar.experimental.dapp.vote.exception.VoteException;
 
 import java.util.Set;
 
@@ -11,15 +10,15 @@ public class VoteService {
 
 
     private final EthereumService ethereumService;
-    Set<String> voteMembers;
+    Set<String> voteOptions;
 
-    public VoteService(Set<String> voteMembers, EthereumService ethereumService) {
-        this.voteMembers = voteMembers;
+    public VoteService(Set<String> voteOptions, EthereumService ethereumService) {
+        this.voteOptions = voteOptions;
         this.ethereumService = ethereumService;
     }
 
-    public Maybe<JsonObject> makeVote(String member) {
-        if (!voteMembers.contains(member)) {
+    public Maybe<JsonObject> makeVote(String option) {
+        if (!voteOptions.contains(option)) {
             return Maybe.error(new VoteException("Member not exists"));
 
         }

@@ -16,14 +16,15 @@ repositories {
 }
 
 dependencies {
-    implementation ('io.vertx:vertx-core:4.2.0')
-    implementation ("io.vertx:vertx-web:4.2.0")
-    implementation ("io.vertx:vertx-rx-java2:4.2.0")
-    implementation("org.web3j:core:5.0.0")
-    implementation ("ch.qos.logback:logback-classic:1.2.6")
+    implementation ("io.vertx:vertx-core:$vertxVersion")
+    implementation ("io.vertx:vertx-web:$vertxVersion")
+    implementation ("io.vertx:vertx-rx-java2:$vertxVersion")
+    implementation ("io.vertx:vertx-web-client:$vertxVersion")
+    implementation("org.web3j:core:$web3Version")
+    implementation ("ch.qos.logback:logback-classic:$logbackVersion")
 
-    testImplementation ("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testImplementation ("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
 
 test {

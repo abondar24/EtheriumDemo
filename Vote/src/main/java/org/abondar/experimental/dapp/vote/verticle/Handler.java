@@ -1,8 +1,10 @@
-package org.abondar.experimental.dapp.vote;
+package org.abondar.experimental.dapp.vote.verticle;
 
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.ext.web.RoutingContext;
 import io.vertx.reactivex.ext.web.handler.BodyHandler;
+import org.abondar.experimental.dapp.vote.exception.VoteException;
+import org.abondar.experimental.dapp.vote.service.VoteService;
 
 public class Handler {
 

@@ -1,6 +1,7 @@
 package org.abondar.experimental.dapp.vote;
 
 import io.vertx.reactivex.core.Vertx;
+import org.abondar.experimental.dapp.vote.verticle.VoteVerticle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,9 +1,11 @@
-package org.abondar.experimental.dapp.vote;
+package org.abondar.experimental.dapp.vote.verticle;
 
 
 import io.reactivex.Completable;
 import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.reactivex.ext.web.Router;
+import org.abondar.experimental.dapp.vote.service.EthereumService;
+import org.abondar.experimental.dapp.vote.service.VoteService;
 
 import java.util.Set;
 
