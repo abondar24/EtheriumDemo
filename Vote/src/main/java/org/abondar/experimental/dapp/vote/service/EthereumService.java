@@ -1,6 +1,17 @@
 package org.abondar.experimental.dapp.vote.service;
 
-public class EthereumService {
+import io.reactivex.Flowable;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
-    private static final String blockchainUrl = "http://localhost:7545";
+import java.math.BigInteger;
+
+public interface EthereumService {
+
+    void init();
+
+    Flowable<TransactionReceipt> registerVoter(String address);
+
+    Flowable<TransactionReceipt> vote(String address,int option);
+
+    Flowable<BigInteger> getWinner();
 }
