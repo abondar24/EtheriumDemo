@@ -4,12 +4,12 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.ext.web.RoutingContext;
 import io.vertx.reactivex.ext.web.handler.BodyHandler;
+import org.abondar.experimental.dapp.vote.exception.ContractException;
 import org.abondar.experimental.dapp.vote.exception.VoteException;
 import org.abondar.experimental.dapp.vote.service.VoteService;
 
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Handler {
 
@@ -32,8 +32,10 @@ public class Handler {
                         err -> {
                             if (err instanceof VoteException) {
                                 sendBadRequest(rc, err);
-                            } else {
+                            } else if (err instanceof ContractException) {
                                 sendBadGateway(rc, err);
+                            } else {
+                                sendServerError(rc, err);
                             }
                         });
 
@@ -48,8 +50,10 @@ public class Handler {
                         err -> {
                             if (err instanceof VoteException) {
                                 sendBadRequest(rc, err);
-                            } else {
+                            } else if (err instanceof ContractException) {
                                 sendBadGateway(rc, err);
+                            } else {
+                                sendServerError(rc, err);
                             }
                         });
     }
@@ -60,22 +64,28 @@ public class Handler {
                         err -> {
                             if (err instanceof VoteException) {
                                 sendBadRequest(rc, err);
-                            } else {
+                            } else if (err instanceof ContractException) {
                                 sendBadGateway(rc, err);
+                            } else {
+                                sendServerError(rc, err);
                             }
                         });
     }
 
-    public void handleOptios(RoutingContext rc, Set<String> options) {
+    public void handleOptions(RoutingContext rc, Set<String> options) {
         var body = new JsonObject();
         var arr = new JsonArray(new ArrayList<>(options));
-        body.put("options",arr);
+        body.put("options", arr);
 
         sendSuccess(rc, body);
     }
 
     private void sendBadGateway(RoutingContext rc, Throwable err) {
         rc.fail(502, err);
+    }
+
+    private void sendServerError(RoutingContext rc, Throwable err) {
+        rc.fail(500, err);
     }
 
     private void sendBadRequest(RoutingContext rc, Throwable err) {

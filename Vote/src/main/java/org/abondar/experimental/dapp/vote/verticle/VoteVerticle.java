@@ -26,7 +26,7 @@ public class VoteVerticle extends AbstractVerticle {
         router.post("/register").handler(handler::handleRegister);
         router.put("/vote").handler(handler::handleVote);
         router.get("/winner").handler(handler::handleWinner);
-        router.get("/options").handler(rc-> handler.handleOptios(rc,options));
+        router.get("/options").handler(rc-> handler.handleOptions(rc,options));
 
 
         return vertx.createHttpServer()
