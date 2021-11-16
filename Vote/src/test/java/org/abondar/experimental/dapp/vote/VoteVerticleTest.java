@@ -16,6 +16,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.ADDRESS_FIELD;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.BLOCK_FIELD;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.HASH_FIELD;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.MSG_FIELD;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.OPTIONS_FIELD;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.OPTION_ENDPOINT;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.REGISTER_ENDPOINT;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.SERVER_PORT;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.VOTER_FIELD;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.VOTES_FIELD;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.WINNER_ENDPOINT;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 
@@ -28,7 +39,7 @@ public class VoteVerticleTest {
     public static void prepare(Vertx vertx) {
         spec = new RequestSpecBuilder()
                 .addFilters(List.of(new ResponseLoggingFilter(), new RequestLoggingFilter()))
-                .setBaseUri("http://localhost:8080")
+                .setBaseUri("http://localhost:"+SERVER_PORT)
                 .build();
 
         var verticle = new VoteVerticle(new EthereumServiceTestImpl());
@@ -38,19 +49,19 @@ public class VoteVerticleTest {
     @Test
     public void registerTest() {
         var json = new JsonObject()
-                .put("voter","Alex")
-                .put("address", "test");
+                .put(VOTER_FIELD,"Alex")
+                .put(ADDRESS_FIELD, "test");
 
         given(spec)
                 .contentType(ContentType.JSON)
                 .body(json.toString())
-                .post("/register")
+                .post(REGISTER_ENDPOINT)
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body("msg",is("Voter Alex registered"))
-                .body("block",is(1))
-                .body("hash",is("Test"));
+                .body(MSG_FIELD,is("Voter Alex registered"))
+                .body(BLOCK_FIELD,is(1))
+                .body(HASH_FIELD,is("Test"));
 
     }
 
@@ -63,9 +74,9 @@ public class VoteVerticleTest {
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body("msg",is("Vote has been made"))
-                .body("block",is(1))
-                .body("hash",is("Test"));
+                .body(MSG_FIELD,is("Vote has been made"))
+                .body(BLOCK_FIELD,is(1))
+                .body(HASH_FIELD,is("Test"));
 
     }
 
@@ -75,11 +86,11 @@ public class VoteVerticleTest {
 
         given(spec)
                 .contentType(ContentType.JSON)
-                .get("/winner")
+                .get(WINNER_ENDPOINT)
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body("votes",is(1));
+                .body(VOTES_FIELD,is(1));
 
     }
 
@@ -88,11 +99,11 @@ public class VoteVerticleTest {
 
         given(spec)
                 .contentType(ContentType.JSON)
-                .get("/options")
+                .get(OPTION_ENDPOINT)
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body("options",hasSize(7));
+                .body(OPTIONS_FIELD,hasSize(7));
 
     }
 }

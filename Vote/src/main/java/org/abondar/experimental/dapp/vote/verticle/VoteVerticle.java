@@ -12,6 +12,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.OPTION_ENDPOINT;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.SERVER_PORT;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.VOTE_ENDPOINT;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.REGISTER_ENDPOINT;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.WINNER_ENDPOINT;
+
 public class VoteVerticle extends AbstractVerticle {
 
     private static final Logger logger = LoggerFactory.getLogger(VoteVerticle.class);
@@ -47,15 +53,15 @@ public class VoteVerticle extends AbstractVerticle {
         router.post().handler(handler.bodyHandler());
         router.put().handler(handler.bodyHandler());
 
-        router.post("/register").handler(handler::handleRegister);
-        router.put("/vote/:option").handler(handler::handleVote);
-        router.get("/winner").handler(handler::handleWinner);
-        router.get("/options").handler(rc -> handler.handleOptions(rc, options));
+        router.post(REGISTER_ENDPOINT).handler(handler::handleRegister);
+        router.put(VOTE_ENDPOINT).handler(handler::handleVote);
+        router.get(WINNER_ENDPOINT).handler(handler::handleWinner);
+        router.get(OPTION_ENDPOINT).handler(rc -> handler.handleOptions(rc, options));
 
 
         return vertx.createHttpServer()
                 .requestHandler(router)
-                .rxListen(8080)
+                .rxListen(SERVER_PORT)
                 .ignoreElement();
 
     }
