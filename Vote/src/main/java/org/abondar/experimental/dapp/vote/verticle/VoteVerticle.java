@@ -13,17 +13,20 @@ public class VoteVerticle extends AbstractVerticle {
 
     @Override
     public Completable rxStart() {
-        var members = Set.of("Alex", "Bob", "Wilhelm");
-        var voteService = new VoteService(members, new EthereumService());
+        var options = Set.of("Alex", "Bob", "Wilhelm","Mark","Max","David","Anton");
+        var voteService = new VoteService(options, new EthereumService());
         var handler = new Handler(voteService);
 
 
         var router = Router.router(vertx);
 
         router.post().handler(handler.bodyHandler());
-        router.post("/register/:voter").handler(handler::handleRegister);
-        router.put("/vote/:member").handler(handler::handleVote);
+        router.put().handler(handler.bodyHandler());
+
+        router.post("/register").handler(handler::handleRegister);
+        router.put("/vote").handler(handler::handleVote);
         router.get("/winner").handler(handler::handleWinner);
+        router.get("/options").handler(rc-> handler.handleOptios(rc,options));
 
 
         return vertx.createHttpServer()

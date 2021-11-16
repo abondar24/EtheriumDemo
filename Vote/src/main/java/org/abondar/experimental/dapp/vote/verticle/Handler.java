@@ -1,10 +1,15 @@
 package org.abondar.experimental.dapp.vote.verticle;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.ext.web.RoutingContext;
 import io.vertx.reactivex.ext.web.handler.BodyHandler;
 import org.abondar.experimental.dapp.vote.exception.VoteException;
 import org.abondar.experimental.dapp.vote.service.VoteService;
+
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Handler {
 
@@ -36,7 +41,8 @@ public class Handler {
     }
 
     public void handleRegister(RoutingContext rc) {
-        var voter = rc.pathParam("voter");
+        var voter = rc.getBodyAsJson();
+
         voteService.registerVoter(voter)
                 .subscribe(resp -> sendSuccess(rc, resp),
                         err -> {
@@ -58,6 +64,14 @@ public class Handler {
                                 sendBadGateway(rc, err);
                             }
                         });
+    }
+
+    public void handleOptios(RoutingContext rc, Set<String> options) {
+        var body = new JsonObject();
+        var arr = new JsonArray(new ArrayList<>(options));
+        body.put("options",arr);
+
+        sendSuccess(rc, body);
     }
 
     private void sendBadGateway(RoutingContext rc, Throwable err) {
