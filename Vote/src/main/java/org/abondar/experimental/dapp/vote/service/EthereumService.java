@@ -11,7 +11,7 @@ public interface EthereumService {
 
     Flowable<TransactionReceipt> registerVoter(String address);
 
-    Flowable<TransactionReceipt> vote(String address,int option);
+    Flowable<TransactionReceipt> vote(String voteOption);
 
     Flowable<BigInteger> getWinner();
 }

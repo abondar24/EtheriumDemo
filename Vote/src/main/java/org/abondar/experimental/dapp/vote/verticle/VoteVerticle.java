@@ -4,19 +4,32 @@ package org.abondar.experimental.dapp.vote.verticle;
 import io.reactivex.Completable;
 import io.vertx.reactivex.core.AbstractVerticle;
 import io.vertx.reactivex.ext.web.Router;
-import org.abondar.experimental.dapp.vote.service.EthereumService;
-import org.abondar.experimental.dapp.vote.service.VoteService;
+import org.abondar.experimental.dapp.vote.exception.ContractException;
+import org.abondar.experimental.dapp.vote.service.EthereumServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Set;
+import java.util.List;
 
 public class VoteVerticle extends AbstractVerticle {
 
+    private static Logger logger = LoggerFactory.getLogger(VoteVerticle.class);
+
     @Override
     public Completable rxStart() {
-        var options = Set.of("Alex", "Bob", "Wilhelm","Mark","Max","David","Anton");
-        var voteService = new VoteService(options, new EthereumService());
-        var handler = new Handler(voteService);
+        var options = List.of("Alex", "Bob", "Wilhelm", "Mark", "Max", "David", "Anton");
+        var ethereumService = new EthereumServiceImpl(options);
 
+        try {
+            ethereumService.init();
+
+        } catch (ContractException ex){
+            logger.error(ex.getMessage());
+            Completable.error(ex)
+                    .blockingAwait();
+        }
+
+        var handler = new Handler(ethereumService);
 
         var router = Router.router(vertx);
 
@@ -24,9 +37,9 @@ public class VoteVerticle extends AbstractVerticle {
         router.put().handler(handler.bodyHandler());
 
         router.post("/register").handler(handler::handleRegister);
-        router.put("/vote").handler(handler::handleVote);
+        router.put("/vote/:option").handler(handler::handleVote);
         router.get("/winner").handler(handler::handleWinner);
-        router.get("/options").handler(rc-> handler.handleOptions(rc,options));
+        router.get("/options").handler(rc -> handler.handleOptions(rc, options));
 
 
         return vertx.createHttpServer()

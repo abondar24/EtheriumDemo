@@ -6,17 +6,21 @@ import io.vertx.reactivex.ext.web.RoutingContext;
 import io.vertx.reactivex.ext.web.handler.BodyHandler;
 import org.abondar.experimental.dapp.vote.exception.ContractException;
 import org.abondar.experimental.dapp.vote.exception.VoteException;
-import org.abondar.experimental.dapp.vote.service.VoteService;
+import org.abondar.experimental.dapp.vote.service.EthereumService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.web3j.protocol.exceptions.TransactionException;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
 
 public class Handler {
+    private static Logger logger = LoggerFactory.getLogger(Handler.class);
 
-    private final VoteService voteService;
+    private final EthereumService ethereumService;
 
-    public Handler(VoteService voteService) {
-        this.voteService = voteService;
+    public Handler(EthereumService voteService) {
+        this.ethereumService = voteService;
     }
 
     public BodyHandler bodyHandler() {
@@ -25,14 +29,20 @@ public class Handler {
 
 
     public void handleVote(RoutingContext rc) {
-        var member = rc.pathParam("member");
+        var option = rc.pathParam("option");
 
-        voteService.makeVote(member)
-                .subscribe(resp -> sendSuccess(rc, resp),
+        ethereumService.vote(option)
+                .subscribe(tr -> {
+                            var resp = new JsonObject();
+                            resp.put("msg", "Vote has been made");
+                            resp.put("blockNum", tr.getBlockNumber());
+                            resp.put("blockHash", tr.getBlockHash());
+                            sendSuccess(rc, resp);
+                        },
                         err -> {
                             if (err instanceof VoteException) {
                                 sendBadRequest(rc, err);
-                            } else if (err instanceof ContractException) {
+                            } else if (err instanceof TransactionException) {
                                 sendBadGateway(rc, err);
                             } else {
                                 sendServerError(rc, err);
@@ -44,14 +54,20 @@ public class Handler {
 
     public void handleRegister(RoutingContext rc) {
         var voter = rc.getBodyAsJson();
+        var address = voter.getString("address");
 
-        voteService.registerVoter(voter)
-                .subscribe(resp -> sendSuccess(rc, resp),
+        ethereumService.registerVoter(address)
+                .subscribe(tr -> {
+                            var resp = new JsonObject();
+                            resp.put("msg", String.format("Voter %s registered", voter.getString("voter")));
+                            resp.put("block", tr.getBlockNumber());
+                            resp.put("hash", tr.getBlockHash());
+
+                            sendSuccess(rc, resp);
+                        },
                         err -> {
-                            if (err instanceof VoteException) {
+                            if (err instanceof TransactionException) {
                                 sendBadRequest(rc, err);
-                            } else if (err instanceof ContractException) {
-                                sendBadGateway(rc, err);
                             } else {
                                 sendServerError(rc, err);
                             }
@@ -59,20 +75,23 @@ public class Handler {
     }
 
     public void handleWinner(RoutingContext rc) {
-        voteService.calcWinner()
-                .subscribe(resp -> sendSuccess(rc, resp),
+        ethereumService.getWinner()
+                .subscribe(votes -> {
+                            var resp = new JsonObject();
+                            resp.put("votes", votes.intValue());
+                            sendSuccess(rc, resp);
+
+                        },
                         err -> {
-                            if (err instanceof VoteException) {
+                            if (err instanceof TransactionException) {
                                 sendBadRequest(rc, err);
-                            } else if (err instanceof ContractException) {
-                                sendBadGateway(rc, err);
                             } else {
                                 sendServerError(rc, err);
                             }
                         });
     }
 
-    public void handleOptions(RoutingContext rc, Set<String> options) {
+    public void handleOptions(RoutingContext rc, List<String> options) {
         var body = new JsonObject();
         var arr = new JsonArray(new ArrayList<>(options));
         body.put("options", arr);
@@ -81,14 +100,17 @@ public class Handler {
     }
 
     private void sendBadGateway(RoutingContext rc, Throwable err) {
+        logger.error(err.getMessage());
         rc.fail(502, err);
     }
 
     private void sendServerError(RoutingContext rc, Throwable err) {
+        logger.error(err.getMessage());
         rc.fail(500, err);
     }
 
     private void sendBadRequest(RoutingContext rc, Throwable err) {
+        logger.error(err.getMessage());
         rc.fail(400, err);
     }
 
