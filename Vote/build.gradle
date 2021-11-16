@@ -33,12 +33,16 @@ test {
 
 mainClassName = "org.abondar.experimental.dapp.vote.Main"
 
-exec {
-    executable "${projectDir}/gradlew"
-}
+
 
 task generateWrapper(type:Exec){
-    workingDir "../Smartcontracts/Vote"
-    commandLine "web3j generate truffle --truffle-json=build/contracts/Vote.json -o ../../Vote/src/main/java -p org.abondar.experimental.dapp.vote.contract"
+    workingDir '../Smartcontracts/Vote'
+    commandLine 'web3j','generate','truffle', '--truffle-json=build/contracts/Vote.json',
+    '-o', '../../Vote/src/main/java', '-p', 'org.abondar.experimental.dapp.vote.contract'
 
+    ext.output = {
+        return standardOutput.toString()
+    }
 }
+
+build.dependsOn generateWrapper
