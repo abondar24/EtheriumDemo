@@ -25,6 +25,10 @@ dependencies {
 
     testImplementation ("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
+    testImplementation ("io.vertx:vertx-junit5:$vertxVersion")
+    testImplementation ("io.vertx:vertx-junit5-rx-java2:$vertxVersion")
+
 }
 
 test {
@@ -32,7 +36,6 @@ test {
 }
 
 mainClassName = "org.abondar.experimental.dapp.vote.Main"
-
 
 
 task generateWrapper(type:Exec){

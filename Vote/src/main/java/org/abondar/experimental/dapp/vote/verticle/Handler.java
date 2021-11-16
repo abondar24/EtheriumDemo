@@ -4,7 +4,6 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.ext.web.RoutingContext;
 import io.vertx.reactivex.ext.web.handler.BodyHandler;
-import org.abondar.experimental.dapp.vote.exception.ContractException;
 import org.abondar.experimental.dapp.vote.exception.VoteException;
 import org.abondar.experimental.dapp.vote.service.EthereumService;
 import org.slf4j.Logger;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Handler {
-    private static Logger logger = LoggerFactory.getLogger(Handler.class);
+    private static final Logger logger = LoggerFactory.getLogger(Handler.class);
 
     private final EthereumService ethereumService;
 
@@ -35,8 +34,8 @@ public class Handler {
                 .subscribe(tr -> {
                             var resp = new JsonObject();
                             resp.put("msg", "Vote has been made");
-                            resp.put("blockNum", tr.getBlockNumber());
-                            resp.put("blockHash", tr.getBlockHash());
+                            resp.put("block", tr.getBlockNumber());
+                            resp.put("hash", tr.getBlockHash());
                             sendSuccess(rc, resp);
                         },
                         err -> {
