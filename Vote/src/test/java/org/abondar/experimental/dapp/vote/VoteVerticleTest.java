@@ -68,8 +68,12 @@ public class VoteVerticleTest {
 
     @Test
     public void voteTest() {
+        var json = new JsonObject()
+                .put(ADDRESS_FIELD, "test");
+
         given(spec)
                 .contentType(ContentType.JSON)
+                .body(json.toString())
                 .put("/vote/Armen")
                 .then()
                 .assertThat()
@@ -86,7 +90,7 @@ public class VoteVerticleTest {
 
         given(spec)
                 .contentType(ContentType.JSON)
-                .get(WINNER_ENDPOINT)
+                .get(WINNER_ENDPOINT+"?address=test")
                 .then()
                 .assertThat()
                 .statusCode(200)

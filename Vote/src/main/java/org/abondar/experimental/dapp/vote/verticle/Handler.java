@@ -40,8 +40,9 @@ public class Handler {
 
     public void handleVote(RoutingContext rc) {
         var option = rc.pathParam(OPTION_PARAM);
+        var address = rc.getBodyAsJson().getString(ADDRESS_FIELD);
 
-        ethereumService.vote(option)
+        ethereumService.vote(option,address)
                 .subscribe(tr -> {
                             var resp = new JsonObject();
                             resp.put(MSG_FIELD, MSG_VOTE);
@@ -85,7 +86,8 @@ public class Handler {
     }
 
     public void handleWinner(RoutingContext rc) {
-        ethereumService.getWinner()
+        var address = rc.queryParam(ADDRESS_FIELD).get(0);
+        ethereumService.getWinner(address)
                 .subscribe(votes -> {
                             var resp = new JsonObject();
                             resp.put(VOTES_FIELD, votes.intValue());

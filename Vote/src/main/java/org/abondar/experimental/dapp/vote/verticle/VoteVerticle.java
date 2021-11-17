@@ -38,16 +38,7 @@ public class VoteVerticle extends AbstractVerticle {
     @Override
     public Completable rxStart() {
 
-        try {
-            ethereumService.init();
-        } catch (ContractException ex) {
-            logger.error(ex.getMessage());
-            Completable.error(ex)
-                    .blockingAwait();
-        }
-
         var handler = new Handler(ethereumService);
-
         var router = Router.router(vertx);
 
         router.post().handler(handler.bodyHandler());

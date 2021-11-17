@@ -7,11 +7,10 @@ import java.math.BigInteger;
 
 public interface EthereumService {
 
-    void init();
 
     Flowable<TransactionReceipt> registerVoter(String address);
 
-    Flowable<TransactionReceipt> vote(String voteOption);
+    Flowable<TransactionReceipt> vote(String voteOption,String address);
 
-    Flowable<BigInteger> getWinner();
+    Flowable<BigInteger> getWinner(String address);
 }
