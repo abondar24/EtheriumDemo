@@ -25,7 +25,7 @@ import static org.abondar.experimental.dapp.vote.util.ApiUtil.OPTION_ENDPOINT;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.REGISTER_ENDPOINT;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.SERVER_PORT;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.VOTER_FIELD;
-import static org.abondar.experimental.dapp.vote.util.ApiUtil.VOTES_FIELD;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.WINNER_FIELD;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.WINNER_ENDPOINT;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -94,7 +94,7 @@ public class VoteVerticleTest {
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body(VOTES_FIELD,is(1));
+                .body(WINNER_FIELD,is("Alex"));
 
     }
 

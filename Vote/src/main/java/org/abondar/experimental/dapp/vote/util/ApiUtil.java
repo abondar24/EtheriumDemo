@@ -26,7 +26,7 @@ public class ApiUtil {
 
     public static final String VOTER_FIELD = "voter";
 
-    public static final String VOTES_FIELD = "votes";
+    public static final String WINNER_FIELD = "winner";
 
     public static final String OPTIONS_FIELD = "options";
 

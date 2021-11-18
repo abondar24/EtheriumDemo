@@ -28,7 +28,7 @@ public class EthereumServiceTestImpl implements EthereumService {
     }
 
     @Override
-    public Flowable<BigInteger> getWinner(String address) {
-        return Flowable.just(BigInteger.ONE);
+    public Flowable<String> getWinner(String address) {
+        return Flowable.just("Alex");
     }
 }

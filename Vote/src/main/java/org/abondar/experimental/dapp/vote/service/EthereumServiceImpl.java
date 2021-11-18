@@ -34,7 +34,7 @@ public class EthereumServiceImpl implements EthereumService {
 
     @Override
     public Flowable<TransactionReceipt> registerVoter(String address) {
-        var contract = loadContract(address);
+        var contract = loadContract("0xCE26baaa956FB1C1548285D17DAF10A00c5B2F47");
         return contract.register(address).flowable();
 
     }
@@ -53,9 +53,12 @@ public class EthereumServiceImpl implements EthereumService {
     }
 
     @Override
-    public Flowable<BigInteger> getWinner(String address) {
+    public Flowable<String> getWinner(String address) {
         var contract = loadContract(address);
-        return contract.calcWinner().flowable();
+        return contract.calcWinner()
+                .flowable()
+                .flatMap(winner-> Flowable.just(voteOptions.get(winner.intValue())));
+
     }
 
     private Vote loadContract(String address) {

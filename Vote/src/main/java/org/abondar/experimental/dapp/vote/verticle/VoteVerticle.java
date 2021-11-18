@@ -20,7 +20,6 @@ import static org.abondar.experimental.dapp.vote.util.ApiUtil.WINNER_ENDPOINT;
 
 public class VoteVerticle extends AbstractVerticle {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoteVerticle.class);
 
     private final EthereumService ethereumService;
 

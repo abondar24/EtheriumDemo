@@ -22,7 +22,7 @@ import static org.abondar.experimental.dapp.vote.util.ApiUtil.MSG_VOTE;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.OPTIONS_FIELD;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.OPTION_PARAM;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.VOTER_FIELD;
-import static org.abondar.experimental.dapp.vote.util.ApiUtil.VOTES_FIELD;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.WINNER_FIELD;
 
 public class Handler {
     private static final Logger logger = LoggerFactory.getLogger(Handler.class);
@@ -88,9 +88,9 @@ public class Handler {
     public void handleWinner(RoutingContext rc) {
         var address = rc.queryParam(ADDRESS_FIELD).get(0);
         ethereumService.getWinner(address)
-                .subscribe(votes -> {
+                .subscribe(winner -> {
                             var resp = new JsonObject();
-                            resp.put(VOTES_FIELD, votes.intValue());
+                            resp.put(WINNER_FIELD, winner);
                             sendSuccess(rc, resp);
 
                         },
