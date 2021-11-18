@@ -1,7 +1,60 @@
+# Vote Dapp
 
-http://localhost:8080/options
+Dapp working with vote [smart contract](../Smartcontracts/Readme.md) 
+
+## Api
+
+```
+POST http://localhost:8080/register - register vote member
+
+Request
+
 {
-"options": [
+"voter": "Some name",
+"address": "Member address in blockhain"
+}
+
+Response 200 - voter regitered
+{
+"msg": "Voter Some name registered",
+"block": 0,
+"hash": "block hash"
+}
+
+Response 500 - registration failed (already registered or voted)
+Response 502 - error connecting to blockchain
+
+PUT localhost:8080/vote/:proposal - make vote
+{
+"address": "Member address in blockhain"
+}
+
+Response 200 - vote made
+{
+"msg": "Vote has been made",
+"block": 0,
+"hash": "block hash"
+}
+
+Response 400 - proposal doesn't exist
+Response 500 - voting failed (already voted or not registered)
+Response 502 - error connecting to blockchain
+
+GET http://localhost:8080/winner?address=<voter address> - fetch user
+
+Response 200
+{
+"winner": "Some winner"
+}
+
+Response 500 - fetching failed (voter not registered voting not happened)
+Response 502 - error connecting to blockchain
+
+http://localhost:8080/proposals - fetch list of proposals
+
+Response 200
+{
+"proposals": [
 "Alex",
 "Bob",
 "Wilhelm",
@@ -11,31 +64,27 @@ http://localhost:8080/options
 "Anton"
 ]
 }
+```
+## Build and run
 
-http://localhost:8080/register
-{
-"voter": "abondar101",
-"address": "0xc973cCD2f5f52d1843A3a202E35CC6e7A3e50295"
-}
+Smart contract build and deploy check [here](../Smartcontracts/Readme.md) 
 
-{
-"msg": "Voter abondar01 registered",
-"block": 25,
-"hash": "0xd593a54082c0d3b88605e458cacdec6090044c6dc15665a098ad2a88c28e8c66"
-}
+```yaml
+./gradlew clean build
 
-localhost:8080/vote/Alex
-{
-"address": "0xc973cCD2f5f52d1843A3a202E35CC6e7A3e50295"
-}
+java -jar build/libs/Vote-1.0-SNAPSHOT-all.jar 
+```
 
-{
-"msg": "Vote has been made",
-"block": 29,
-"hash": "0x89539575281bcdd7daba1abb085d3f426678be5105b3c5d0dd36247f03fba31b"
-}
+Generate smart contract wrapper
+```yaml
+./gradlew generateWrapper
+```
 
-http://localhost:8080/winner
-{
-"winner": "Alex"
-}
+
+
+
+
+
+
+
+
