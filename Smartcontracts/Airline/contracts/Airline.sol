@@ -2,7 +2,7 @@ pragma solidity >=0.4.22 <0.9.0;
 
 contract Airline {
 
-    address  chairman;
+    address  chairperson;
 
     struct details {
         uint deposit;
@@ -14,7 +14,7 @@ contract Airline {
     mapping(address => uint) membership;
 
     modifier onlyChairman{
-        require(msg.sender == chairman);
+        require(msg.sender == chairperson);
         _;
     }
 
@@ -24,7 +24,7 @@ contract Airline {
     }
 
     constructor() public payable {
-        chairman = msg.sender;
+        chairperson = msg.sender;
         membership[msg.sender] = 1;
         balanceDetails[msg.sender].deposit = msg.value;
     }
@@ -37,7 +37,7 @@ contract Airline {
     }
 
     function unregister(address payable airlineLast) public payable {
-        if (chairman != msg.sender) {
+        if (chairperson != msg.sender) {
             revert();
         }
 
