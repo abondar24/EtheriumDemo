@@ -4,6 +4,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.ext.web.RoutingContext;
 import io.vertx.reactivex.ext.web.handler.BodyHandler;
+import org.abondar.experimental.dapp.vote.exception.BlockhainConnectException;
 import org.abondar.experimental.dapp.vote.exception.VoteException;
 import org.abondar.experimental.dapp.vote.service.EthereumService;
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ public class Handler {
         var proposals = rc.pathParam(PROPOSAL_PARAM);
         var address = rc.getBodyAsJson().getString(ADDRESS_FIELD);
 
-        ethereumService.vote(proposals,address)
+        ethereumService.vote(proposals, address)
                 .subscribe(tr -> {
                             var resp = new JsonObject();
                             resp.put(MSG_FIELD, MSG_VOTE);
@@ -54,6 +55,8 @@ public class Handler {
                             if (err instanceof VoteException) {
                                 sendBadRequest(rc, err);
                             } else if (err instanceof TransactionException) {
+                                sendBadGateway(rc, err);
+                            } else if (err instanceof BlockhainConnectException) {
                                 sendBadGateway(rc, err);
                             } else {
                                 sendServerError(rc, err);
@@ -79,6 +82,8 @@ public class Handler {
                         err -> {
                             if (err instanceof TransactionException) {
                                 sendBadRequest(rc, err);
+                            } else if (err instanceof BlockhainConnectException) {
+                                sendBadGateway(rc, err);
                             } else {
                                 sendServerError(rc, err);
                             }
@@ -97,6 +102,8 @@ public class Handler {
                         err -> {
                             if (err instanceof TransactionException) {
                                 sendBadRequest(rc, err);
+                            } else if (err instanceof BlockhainConnectException) {
+                                sendBadGateway(rc, err);
                             } else {
                                 sendServerError(rc, err);
                             }

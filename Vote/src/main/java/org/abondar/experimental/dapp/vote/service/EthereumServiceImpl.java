@@ -2,7 +2,7 @@ package org.abondar.experimental.dapp.vote.service;
 
 import io.reactivex.Flowable;
 import org.abondar.experimental.dapp.vote.contract.Vote;
-import org.abondar.experimental.dapp.vote.exception.ContractException;
+import org.abondar.experimental.dapp.vote.exception.BlockhainConnectException;
 import org.abondar.experimental.dapp.vote.exception.VoteException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +71,7 @@ public class EthereumServiceImpl implements EthereumService {
 
         } catch (Exception ex) {
             logger.error(ex.getMessage());
-            throw new ContractException(ex.getMessage());
+            throw new BlockhainConnectException(ex.getMessage());
         }
     }
 
