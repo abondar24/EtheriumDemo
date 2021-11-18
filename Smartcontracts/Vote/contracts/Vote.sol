@@ -1,4 +1,4 @@
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity >0.6.0 <=0.9.0;
 
 
 contract Vote{
@@ -13,15 +13,15 @@ contract Vote{
         uint count;
     }
 
-    address chairman;
+    address chairperson;
 
     mapping(address=> Voter) voters;
 
     Proposal[] proposals;
 
 
-    modifier onlyChairman(){
-        require(msg.sender==chairman);
+    modifier onlyChairperson(){
+        require(msg.sender==chairperson);
         _;
     }
 
@@ -30,35 +30,34 @@ contract Vote{
         _;
     }
 
-
-
     constructor(uint proposalsNum) public {
-        chairman = msg.sender;
-        voters[chairman].weight = 2;
+        chairperson = msg.sender;
+        voters[chairperson].weight = 2;
         for (uint prop=0;prop<proposalsNum;prop++){
             proposals.push(Proposal(0));
         }
     }
 
 
-    function register(address voter) public onlyChairman {
-        require (!voters[voter].voted);
+    function register(address voter) public onlyChairperson {
+        require (!voters[voter].voted,"Already voted");
+        require (voters[voter].weight==0,"Weight not 0");
 
         voters[voter].weight=1;
+        voters[voter].voted=false;
     }
 
     function vote(uint proposal) public validVoter{
-        Voter memory sender = voters[msg.sender];
+        Voter storage sender = voters[msg.sender];
 
-        require(!sender.voted);
-        require(proposal <proposals.length);
+        require(!sender.voted,"Already voted");
 
         sender.voted=true;
         sender.vote = proposal;
         proposals[proposal].count +=sender.weight;
     }
 
-    function calcWinner() public validVoter view returns(uint winProposal){
+    function calcWinner() public view returns(uint winProposal){
           uint winningCount = 0;
 
           for(uint prop =0; prop<proposals.length;prop++){
@@ -68,7 +67,7 @@ contract Vote{
               }
           }
 
-        assert(winningCount>=5);
+
     }
 }
 
