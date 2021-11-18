@@ -4,7 +4,6 @@ import io.reactivex.Flowable;
 import org.abondar.experimental.dapp.vote.service.EthereumService;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
-import java.math.BigInteger;
 
 public class EthereumServiceTestImpl implements EthereumService {
 

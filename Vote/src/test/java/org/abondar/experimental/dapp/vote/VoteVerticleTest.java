@@ -20,8 +20,8 @@ import static org.abondar.experimental.dapp.vote.util.ApiUtil.ADDRESS_FIELD;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.BLOCK_FIELD;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.HASH_FIELD;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.MSG_FIELD;
-import static org.abondar.experimental.dapp.vote.util.ApiUtil.OPTIONS_FIELD;
-import static org.abondar.experimental.dapp.vote.util.ApiUtil.OPTION_ENDPOINT;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.PROPOSALS_FIELD;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.PROPOSAL_ENDPOINT;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.REGISTER_ENDPOINT;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.SERVER_PORT;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.VOTER_FIELD;
@@ -103,11 +103,11 @@ public class VoteVerticleTest {
 
         given(spec)
                 .contentType(ContentType.JSON)
-                .get(OPTION_ENDPOINT)
+                .get(PROPOSAL_ENDPOINT)
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body(OPTIONS_FIELD,hasSize(7));
+                .body(PROPOSALS_FIELD,hasSize(7));
 
     }
 }

@@ -16,6 +16,7 @@ import java.math.BigInteger;
 import java.util.List;
 
 import static org.abondar.experimental.dapp.vote.util.EthereumUtil.BLOCKCHAIN_URL;
+import static org.abondar.experimental.dapp.vote.util.EthereumUtil.CHAIRPERSON_ADDRESS;
 import static org.abondar.experimental.dapp.vote.util.EthereumUtil.GAS_LIMIT_GN;
 import static org.abondar.experimental.dapp.vote.util.EthereumUtil.GAS_PRICE_GN;
 
@@ -23,31 +24,31 @@ public class EthereumServiceImpl implements EthereumService {
 
 
     private static final Logger logger = LoggerFactory.getLogger(EthereumServiceImpl.class);
-    private final List<String> voteOptions;
+    private final List<String> voteProposals;
 
     private final Web3j web3;
 
-    public EthereumServiceImpl(List<String> voteOptions) {
-        this.voteOptions = voteOptions;
+    public EthereumServiceImpl(List<String> voteProposals) {
+        this.voteProposals = voteProposals;
         this.web3 = Web3j.build(new HttpService(BLOCKCHAIN_URL));
     }
 
     @Override
     public Flowable<TransactionReceipt> registerVoter(String address) {
-        var contract = loadContract("0xCE26baaa956FB1C1548285D17DAF10A00c5B2F47");
+        var contract = loadContract(CHAIRPERSON_ADDRESS);
         return contract.register(address).flowable();
 
     }
 
     @Override
     public Flowable<TransactionReceipt> vote(String voteOption, String address) {
-        if (!voteOptions.contains(voteOption)) {
+        if (!voteProposals.contains(voteOption)) {
             logger.error("Member not exists");
             return Flowable.error(new VoteException("Member not exists"));
 
         }
 
-        var proposal = voteOptions.indexOf(voteOption);
+        var proposal = voteProposals.indexOf(voteOption);
         var contract = loadContract(address);
         return contract.vote(BigInteger.valueOf(proposal)).flowable();
     }
@@ -57,7 +58,7 @@ public class EthereumServiceImpl implements EthereumService {
         var contract = loadContract(address);
         return contract.calcWinner()
                 .flowable()
-                .flatMap(winner-> Flowable.just(voteOptions.get(winner.intValue())));
+                .flatMap(winner-> Flowable.just(voteProposals.get(winner.intValue())));
 
     }
 

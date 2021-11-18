@@ -19,8 +19,8 @@ import static org.abondar.experimental.dapp.vote.util.ApiUtil.HASH_FIELD;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.MSG_FIELD;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.MSG_REGISTER;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.MSG_VOTE;
-import static org.abondar.experimental.dapp.vote.util.ApiUtil.OPTIONS_FIELD;
-import static org.abondar.experimental.dapp.vote.util.ApiUtil.OPTION_PARAM;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.PROPOSALS_FIELD;
+import static org.abondar.experimental.dapp.vote.util.ApiUtil.PROPOSAL_PARAM;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.VOTER_FIELD;
 import static org.abondar.experimental.dapp.vote.util.ApiUtil.WINNER_FIELD;
 
@@ -39,10 +39,10 @@ public class Handler {
 
 
     public void handleVote(RoutingContext rc) {
-        var option = rc.pathParam(OPTION_PARAM);
+        var proposals = rc.pathParam(PROPOSAL_PARAM);
         var address = rc.getBodyAsJson().getString(ADDRESS_FIELD);
 
-        ethereumService.vote(option,address)
+        ethereumService.vote(proposals,address)
                 .subscribe(tr -> {
                             var resp = new JsonObject();
                             resp.put(MSG_FIELD, MSG_VOTE);
@@ -103,10 +103,10 @@ public class Handler {
                         });
     }
 
-    public void handleOptions(RoutingContext rc, List<String> options) {
+    public void handleProposals(RoutingContext rc, List<String> options) {
         var body = new JsonObject();
         var arr = new JsonArray(new ArrayList<>(options));
-        body.put(OPTIONS_FIELD, arr);
+        body.put(PROPOSALS_FIELD, arr);
 
         sendSuccess(rc, body);
     }

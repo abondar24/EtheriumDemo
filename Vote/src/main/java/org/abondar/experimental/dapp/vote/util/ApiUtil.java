@@ -8,13 +8,13 @@ public class ApiUtil {
 
     public static final String REGISTER_ENDPOINT = "/register";
 
-    public static final String OPTION_PARAM= "option";
+    public static final String PROPOSAL_PARAM = "proposal";
 
-    public static final String VOTE_ENDPOINT = "/vote/:"+OPTION_PARAM;
+    public static final String VOTE_ENDPOINT = "/vote/:"+ PROPOSAL_PARAM;
 
     public static final String WINNER_ENDPOINT = "/winner";
 
-    public static final String OPTION_ENDPOINT = "/options";
+    public static final String PROPOSAL_ENDPOINT = "/proposals";
 
     public static final String MSG_FIELD = "msg";
 
@@ -28,7 +28,7 @@ public class ApiUtil {
 
     public static final String WINNER_FIELD = "winner";
 
-    public static final String OPTIONS_FIELD = "options";
+    public static final String PROPOSALS_FIELD = "proposals";
 
     public static final String MSG_VOTE = "Vote has been made";
 
