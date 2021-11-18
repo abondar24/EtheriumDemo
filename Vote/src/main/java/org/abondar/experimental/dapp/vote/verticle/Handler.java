@@ -39,6 +39,28 @@ public class Handler {
     }
 
 
+    public void handleRegister(RoutingContext rc) {
+        var voter = rc.getBodyAsJson();
+        var address = voter.getString(ADDRESS_FIELD);
+
+        ethereumService.registerVoter(address)
+                .subscribe(tr -> {
+                            var resp = new JsonObject();
+                            resp.put(MSG_FIELD, String.format(MSG_REGISTER, voter.getString(VOTER_FIELD)));
+                            resp.put(BLOCK_FIELD, tr.getBlockNumber());
+                            resp.put(HASH_FIELD, tr.getBlockHash());
+
+                            sendSuccess(rc, resp);
+                        },
+                        err -> {
+                           if (err instanceof BlockhainConnectException) {
+                                sendBadGateway(rc, err);
+                            } else {
+                                sendServerError(rc, err);
+                            }
+                        });
+    }
+
     public void handleVote(RoutingContext rc) {
         var proposals = rc.pathParam(PROPOSAL_PARAM);
         var address = rc.getBodyAsJson().getString(ADDRESS_FIELD);
@@ -54,8 +76,6 @@ public class Handler {
                         err -> {
                             if (err instanceof VoteException) {
                                 sendBadRequest(rc, err);
-                            } else if (err instanceof TransactionException) {
-                                sendBadGateway(rc, err);
                             } else if (err instanceof BlockhainConnectException) {
                                 sendBadGateway(rc, err);
                             } else {
@@ -66,29 +86,6 @@ public class Handler {
 
     }
 
-    public void handleRegister(RoutingContext rc) {
-        var voter = rc.getBodyAsJson();
-        var address = voter.getString(ADDRESS_FIELD);
-
-        ethereumService.registerVoter(address)
-                .subscribe(tr -> {
-                            var resp = new JsonObject();
-                            resp.put(MSG_FIELD, String.format(MSG_REGISTER, voter.getString(VOTER_FIELD)));
-                            resp.put(BLOCK_FIELD, tr.getBlockNumber());
-                            resp.put(HASH_FIELD, tr.getBlockHash());
-
-                            sendSuccess(rc, resp);
-                        },
-                        err -> {
-                            if (err instanceof TransactionException) {
-                                sendBadRequest(rc, err);
-                            } else if (err instanceof BlockhainConnectException) {
-                                sendBadGateway(rc, err);
-                            } else {
-                                sendServerError(rc, err);
-                            }
-                        });
-    }
 
     public void handleWinner(RoutingContext rc) {
         var address = rc.queryParam(ADDRESS_FIELD).get(0);
@@ -100,9 +97,7 @@ public class Handler {
 
                         },
                         err -> {
-                            if (err instanceof TransactionException) {
-                                sendBadRequest(rc, err);
-                            } else if (err instanceof BlockhainConnectException) {
+                             if (err instanceof BlockhainConnectException) {
                                 sendBadGateway(rc, err);
                             } else {
                                 sendServerError(rc, err);
