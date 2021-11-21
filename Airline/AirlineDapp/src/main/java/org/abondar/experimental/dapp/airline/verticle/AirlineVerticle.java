@@ -1,6 +1,11 @@
 package org.abondar.experimental.dapp.airline.verticle;
 
-public class AirlineVerticle extends AbstractVerticle{
+import io.reactivex.Completable;
+import io.vertx.reactivex.core.AbstractVerticle;
+import io.vertx.reactivex.ext.web.Router;
+import io.vertx.reactivex.ext.web.handler.StaticHandler;
+
+public class AirlineVerticle extends AbstractVerticle {
 
     @Override
     public Completable rxStart(){

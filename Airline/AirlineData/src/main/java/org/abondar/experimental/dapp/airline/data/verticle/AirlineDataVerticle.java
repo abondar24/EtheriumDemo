@@ -1,6 +1,9 @@
 package org.abondar.experimental.dapp.airline.data.verticle;
 
-public class AirlineDataVerticle extends AbstractVerticle{
+import io.reactivex.Completable;
+import io.vertx.reactivex.core.AbstractVerticle;
+
+public class AirlineDataVerticle extends AbstractVerticle {
 
 
     @Override

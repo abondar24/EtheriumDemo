@@ -1,6 +1,9 @@
 package org.abondar.experimental.dapp.airline;
 
+import io.vertx.reactivex.core.Vertx;
 import org.abondar.experimental.dapp.airline.verticle.AirlineVerticle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
