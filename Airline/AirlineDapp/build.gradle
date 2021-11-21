@@ -20,6 +20,13 @@ tasks.register('copyDist', Copy){
 
 }
 
+task copyContract(type: Copy){
+    from '../../Smartcontracts/Airline/build/contracts'
+    include 'Airline.json'
+    into 'airline-dapp'
+}
+
+buildFrontend.dependsOn copyContract
 processResources.dependsOn copyDist
 
 clean{
