@@ -24,3 +24,5 @@ hs_err_pid*
 Smartcontracts/*/build
 Vote/.gradle
 Vote/build
+Airline/build
+Airline/.gradle

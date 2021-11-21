@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id "com.github.johnrengelman.shadow" version "7.0.0"
+}
+
+group 'org.abondar.experimental.dapp.airline'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+allprojects {
+    apply plugin: 'idea'
+
+    repositories {
+        mavenCentral()
+    }
+
+}
+
+subprojects {
+    apply plugin: 'application'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    dependencies {
+        implementation ("io.vertx:vertx-core:$vertxVersion")
+        implementation ("io.vertx:vertx-web:$vertxVersion")
+        implementation ("io.vertx:vertx-rx-java2:$vertxVersion")
+
+        testImplementation ("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+        testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+        testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
+        testImplementation ("io.vertx:vertx-junit5:$vertxVersion")
+        testImplementation ("io.vertx:vertx-junit5-rx-java2:$vertxVersion")
+    }
+
+
+    test {
+        useJUnitPlatform()
+    }
+}
+
+
+

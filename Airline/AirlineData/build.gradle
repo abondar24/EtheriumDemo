@@ -1,0 +1,13 @@
+group 'org.abondar.experimental.dapp.airline.data'
+version '1.0-SNAPSHOT'
+
+
+mainClassName = "org.abondar.experimental.dapp.airline.data.Main"
+
+dependencies {
+
+    implementation("io.vertx:vertx-mongo-client:$vertxVersion")
+    implementation("io.vertx:vertx-auth-mongo:$vertxVersion")
+
+}
+
