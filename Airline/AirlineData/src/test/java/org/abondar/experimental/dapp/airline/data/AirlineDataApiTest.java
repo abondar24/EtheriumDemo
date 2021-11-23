@@ -18,6 +18,7 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.FLIGHTS_ENDPOINT;
 import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.FLIGHT_ID_FIELD;
+import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.OFFSET_PARAM;
 import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.SEATS_ENDPOINT;
 import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.SEATS_FIELD;
 import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.SERVER_PORT;
@@ -44,10 +45,20 @@ public class AirlineDataApiTest {
     public void fetchFlightsTest() {
         given(spec)
                 .contentType(ContentType.JSON)
-                .get(FLIGHTS_ENDPOINT)
+                .get(FLIGHTS_ENDPOINT+"?offset=0&limit=2")
                 .then()
                 .assertThat()
                 .statusCode(200);
+    }
+
+    @Test
+    public void fetchFlightsBadRequestTest() {
+        given(spec)
+                .contentType(ContentType.JSON)
+                .get(FLIGHTS_ENDPOINT+"?offset=test&limit=2")
+                .then()
+                .assertThat()
+                .statusCode(400);
     }
 
     @Test

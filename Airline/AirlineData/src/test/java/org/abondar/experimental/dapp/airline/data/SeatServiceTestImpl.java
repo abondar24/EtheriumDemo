@@ -8,7 +8,7 @@ import org.abondar.experimental.dapp.airline.data.service.SeatService;
 
 public class SeatServiceTestImpl implements SeatService {
     @Override
-    public Flowable<JsonObject> fetchFlights() {
+    public Flowable<JsonObject> fetchFlights(int skip,int limit) {
         var json = new JsonObject();
         json.put("flights",new JsonArray());
         return Flowable.just(json);

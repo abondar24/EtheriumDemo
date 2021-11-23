@@ -4,6 +4,7 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.mongo.FindOptions;
 import io.vertx.reactivex.core.Vertx;
 import io.vertx.reactivex.ext.mongo.MongoClient;
 
@@ -37,9 +38,14 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public Flowable<JsonObject> fetchFlights() {
+    public Flowable<JsonObject> fetchFlights(int skip,int limit) {
 
-        return mongoClient.rxFind(FLIGHT_COLLECTION, new JsonObject())
+        var findOptions = new FindOptions();
+        findOptions.setLimit(limit);
+        findOptions.setSort(new JsonObject().put("_id", 1));
+        findOptions.setSkip(skip);
+
+        return mongoClient.rxFindWithOptions(FLIGHT_COLLECTION, new JsonObject(),findOptions)
                 .map(res -> {
                     var flights = new JsonObject();
                     flights.put("flights", new JsonArray(res));

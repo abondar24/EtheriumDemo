@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface SeatService {
 
-    Flowable<JsonObject> fetchFlights();
+    Flowable<JsonObject> fetchFlights(int skip,int limit);
 
     Completable updateSeats(int flightId, int seats);
 

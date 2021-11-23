@@ -13,4 +13,9 @@ public class ApiUtil {
     public static final String FLIGHT_ID_FIELD = "flightId";
 
     public static final String SEATS_FIELD = "seats";
+
+    public static final String OFFSET_PARAM = "offset";
+
+    public static final String LIMIT_PARAM = "limit";
+
 }

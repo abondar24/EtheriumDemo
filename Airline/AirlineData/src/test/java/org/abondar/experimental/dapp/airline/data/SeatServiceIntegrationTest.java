@@ -38,7 +38,7 @@ public class SeatServiceIntegrationTest {
     @Test
     public void fetchFlightsTest(VertxTestContext testContext) throws Exception {
         Thread.sleep(2000);
-        var res = seatService.fetchFlights();
+        var res = seatService.fetchFlights(0,6);
 
         res.subscribe(
                 flights -> {

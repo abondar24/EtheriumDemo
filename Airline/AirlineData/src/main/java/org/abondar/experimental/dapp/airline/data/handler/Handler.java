@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.FLIGHT_ID_FIELD;
+import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.LIMIT_PARAM;
+import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.OFFSET_PARAM;
 import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.SEATS_FIELD;
 
 public class Handler {
@@ -27,11 +29,21 @@ public class Handler {
     }
 
     public void fetchFlights(RoutingContext context) {
-        seatService.fetchFlights()
-                .subscribe(
-                        json -> sendFetched(context, json),
-                        err -> sendFetchError(context, err)
-                );
+        var skip = context.queryParam(OFFSET_PARAM).get(0);
+        var limit = context.queryParam(LIMIT_PARAM).get(0);
+
+        try {
+            seatService.fetchFlights(Integer.parseInt(skip),Integer.parseInt(limit))
+                    .subscribe(
+                            json -> sendFetched(context, json),
+                            err -> sendFetchError(context, err)
+                    );
+        } catch (NumberFormatException ex){
+            logger.error(ex.getMessage());
+            sendBadRequest(context);
+        }
+
+
     }
 
     public void updateSeats(RoutingContext context) {
