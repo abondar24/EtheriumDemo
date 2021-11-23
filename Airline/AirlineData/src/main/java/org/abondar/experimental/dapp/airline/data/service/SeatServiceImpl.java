@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import static org.abondar.experimental.dapp.airline.data.util.MongoUtil.DATABASE_NAME;
 import static org.abondar.experimental.dapp.airline.data.util.MongoUtil.FLIGHT_COLLECTION;
 import static org.abondar.experimental.dapp.airline.data.util.MongoUtil.FLIGHT_ID;
+import static org.abondar.experimental.dapp.airline.data.util.MongoUtil.ID;
 import static org.abondar.experimental.dapp.airline.data.util.MongoUtil.MONGO_HOST;
 import static org.abondar.experimental.dapp.airline.data.util.MongoUtil.MONGO_PASS;
 import static org.abondar.experimental.dapp.airline.data.util.MongoUtil.MONGO_PORT;
@@ -40,9 +41,13 @@ public class SeatServiceImpl implements SeatService {
     @Override
     public Flowable<JsonObject> fetchFlights(int skip,int limit) {
 
+        var fields = new JsonObject();
+        fields.put(ID, 0);
+
         var findOptions = new FindOptions();
         findOptions.setLimit(limit);
         findOptions.setSort(new JsonObject().put("_id", 1));
+        findOptions.setFields(fields);
         findOptions.setSkip(skip);
 
         return mongoClient.rxFindWithOptions(FLIGHT_COLLECTION, new JsonObject(),findOptions)
