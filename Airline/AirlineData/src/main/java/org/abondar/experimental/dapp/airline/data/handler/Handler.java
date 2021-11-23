@@ -36,7 +36,7 @@ public class Handler {
             seatService.fetchFlights(Integer.parseInt(skip),Integer.parseInt(limit))
                     .subscribe(
                             json -> sendFetched(context, json),
-                            err -> sendFetchError(context, err)
+                            err -> sendServerError(context, err)
                     );
         } catch (NumberFormatException ex){
             logger.error(ex.getMessage());
@@ -74,13 +74,7 @@ public class Handler {
                 .end();
     }
 
-    private void sendFetchError(RoutingContext rc, Throwable err) {
-        if (err instanceof NoSuchFieldException) {
-            rc.fail(404);
-        } else {
-            sendServerError(rc, err);
-        }
-    }
+
 
     private void sendBadRequest(RoutingContext rc) {
         rc.fail(400);

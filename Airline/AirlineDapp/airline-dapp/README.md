@@ -1,5 +1,7 @@
 # airline-dapp
 
+Frontend for Airline Dapp
+
 ## Project setup
 ```
 npm install

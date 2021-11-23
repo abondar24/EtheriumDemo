@@ -18,7 +18,6 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.FLIGHTS_ENDPOINT;
 import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.FLIGHT_ID_FIELD;
-import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.OFFSET_PARAM;
 import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.SEATS_ENDPOINT;
 import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.SEATS_FIELD;
 import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.SERVER_PORT;
