@@ -1,0 +1,474 @@
+<template>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <h1 class="section-title"> Available Seats</h1>
+        <div class="todo">
+          <ul class="list" id="flights">
+            <li>
+              <div class="todo-content">
+                <h4 class="todo-name">
+                  <strong>
+                    <span>FID</span>
+                    <span>Airline</span>
+                    <span>From</span>
+                    <span>To</span>
+                    <span class="depTime">DepTime</span>
+                    <span style="font-weight: 700;">AvailSeats</span>
+                  </strong>
+                </h4>
+              </div>
+            </li>
+            <li id="flight-data">
+              <div class="todo-content">
+                <h4 class="todo-name">
+                  <span>
+                    <strong>
+                      {{ flightId }}
+                    </strong>
+                  </span>
+                  <span>
+                    <strong>
+                      {{ airline }}
+                    </strong>
+                  </span>
+                  <span>
+                      {{ fromCity }}
+                  </span>
+                  <span>
+                      {{ toCity }}
+                  </span>
+                  <span class="depTime">
+                    {{ depTime }}
+                  </span>
+                  <span class="seats">
+                    {{ seats }}
+                  </span>
+                </h4>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <h1 class="section-title">Airline Consortium</h1>
+        <div class="todo functions">
+          <p>Registration</p>
+        </div>
+        <ul class="list">
+          <li class="">
+            <div class="todo-icon fa fa-plane">
+            </div>
+            <div class="todo-content">
+              <h4 class="todo-name">
+                <strong>Airlines Registration</strong>
+              </h4>
+              <button id="register" class="btn btn-info" v-on:click="handleRegister">
+                <i class="fa fa-plane" style="font-size: 17px; margin-right: 5px;">
+                  Register
+                </i>
+              </button>
+              <div class="form-group d-inline"
+                   style="float: right; margin-right: 20px;">
+                <input type="text" class="form-group d-inline" placeholder="Enter deposit"
+                       id="airlineDeposit"
+                       v-model="airlineDeposit"
+                       style="margin-right: 5px;"/>
+              </div>
+            </div>
+          </li>
+          <li class="">
+            <div class="todo-icon fui-user"></div>
+            <div class="todo-content">
+              <h4 class="todo-name">
+                <strong>Chairperson can unregister</strong>
+              </h4>
+              <button id="unregister" class="btn btn-info" v-on:click="handleUnregister">
+                <i class="fui-user" style="font-size: 17px; margin-right: 5px;"></i>
+                Unregister
+              </button>
+              <div class="form-group d-inline" style="float: right; margin-right: 20px;">
+                <input type="text" class="form-control" placeholder="Enter airline address"
+                       id="airlineAddress"
+                       v-model="airlineAddress"
+                       style="margin-right: 5px;"/>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="todo functions">
+        <div class="todo-search">
+          <p>Change seats record</p>
+        </div>
+        <ul class="list">
+          <li class="">
+            <div class="todo-icon fa fa-share"></div>
+            <div class="todo-content">
+              <h4 class="todo-name">
+                <strong>Request</strong>
+              </h4>
+              <button id="request" class="btn btn-info" v-on:click="handleRequest">
+                Request
+              </button>
+              <div style="float: right; margin-right: 20px">
+                <div class="form-group">
+                  <input type="text" class="form-control d-inline" placeholder="Enter request id"
+                         id="reqId" style="margin-right: 5px;" v-model="reqId">
+                  <input type="text" class="form-control d-inline" placeholder="Enter flight id"
+                         id="flId" style="margin-right: 5px;" v-model="reqFlightId">
+                  <input type="text" class="form-control d-inline" placeholder="Enter passenger id"
+                         id="psgId" style="margin-right: 5px;" v-model="reqPassId">
+                </div>
+                <div class="form-group" style="margin-top: 10px;">
+                  <input type="text" class="form-control d-inline" placeholder="Number of seats"
+                         id="seatNum" style="margin-right: 5px;" v-model="reqNumSeats">
+                  <input type="text" class="form-control d-inline" placeholder="Destination Airline Address"
+                         id="dstAddr" style="margin-right: 5px;" v-model="reqDstAddr">
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="">
+            <div class="todo-icon fa fa-reply"></div>
+            <div class="todo-content">
+              <div class="todo-name">
+                <h4 class="todo-name">
+                  <strong>
+                    Response
+                  </strong>
+                </h4>
+                <button id="response" class="btn btn-info" v-on:click="handleResponse">
+                  Response
+                </button>
+                <div class="form-group d-inline" style="float: right; margin-right: 20px;">
+                  <input type="text" class="form-control d-inline" placeholder="Enter request id"
+                         id="respId" style="margin-right: 5px;" v-model="respReqId">
+                  <input type="text" class="form-control d-inline" placeholder="Is success? (true/false)"
+                         id="sccId" style="margin-right: 5px;" v-model="respSuccess">
+                  <input type="text" class="form-control d-inline" placeholder="Source Airline address"
+                         id="srcAddr" style="margin-right: 5px;" v-model="respSrcAddr">
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="">
+            <div class="todo-icon fa fa-money"></div>
+            <div class="todo-content">
+              <h4 class="todo-name">
+                <strong>Settle</strong>
+              </h4>
+              <button id="settle" class="btn btn-info" v-on:click="handleSettle">
+                Settle payment
+              </button>
+              <div class="form-group d-inline" style="float: right; margin-right: 20px;">
+                <input type="text" class="form-control d-inline" placeholder="Enter request id"
+                       id="stReqId" style="margin-right: 5px;" v-model="stReqId">
+                <input type="text" class="form-control d-inline" placeholder="Number of seats"
+                       id="stSeats" style="margin-right: 5px;" v-model="stSeatsNum">
+                <input type="text" class="form-control d-inline" placeholder="Destination airline address"
+                       id="stAddr" style="margin-right: 5px;" v-model="stAddr">
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="todo-functions">
+        <div class="todo-search" style="border-radius: 6px; padding: 15px 25px;"></div>
+        <div class="todo-icon fa fa-handshake-o" style="margin-top: 5px;"></div>
+        <p style="display: inline-block;">Replenish Escrow</p>
+        <button id="replenish" class="btn btn-info" style="margin-top: -4px;" v-on:click="handleReplenish">
+          Replenish
+        </button>
+        <div class="form-group d-inline" style="float: right; margin-right: 20px; margin-top: -4px">
+          <input type="text" class="form-control d-inline" placeholder="Destination airline address"
+                 id="repl" style="margin-right: 5px;" v-model="rplAmt">
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Airline',
+  data() {
+    return {
+      flightId: 0,
+      airline: '',
+      fromCity: '',
+      toCity: '',
+      depTime: '',
+      seats: 0,
+      airlineDeposit: '',
+      airlineAddress: '',
+      reqId: '',
+      reqFlightId: '',
+      reqPassId: '',
+      reqNumSeats: 0,
+      reqDstAddr: '',
+      respReqId: '',
+      respSuccess: 'false',
+      respSrcAddr: '',
+      stReqId: '',
+      stSeatsNum: 0,
+      stAddr: '',
+      rplAmt:0
+    }
+  },
+  methods: {
+    handleRegister() {
+
+    },
+    handleUnregister() {
+
+    },
+    handleRequest() {
+
+    },
+    handleResponse() {
+
+    },
+    handleSettle() {
+
+    },
+    handleReplenish() {
+
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+body {
+  background-color: #ebeff2;
+}
+
+body .container {
+  width: 96%;
+}
+
+.form-group.focus .form-control, .form-group.focus .select2-search input[type="text"], .select2-search .form-group.focus input[type="text"], .form-control:focus, .select2-search input[type="text"]:focus {
+  border-color: #3498db;
+}
+
+.section-title {
+  font: 900 32px/40px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 50px 0;
+  text-align: center;
+}
+
+.todo-search {
+  background: #fff;
+  color: #34495e;
+}
+
+.todo-search p {
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0;
+}
+
+.todo ul.list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  border-radius: 0 0 6px 6px;
+}
+
+.todo ul.list > li {
+  background: #34495e;
+  background-size: 20px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.214;
+  margin-top: 2px;
+  padding: 18px 25px 21px 25px;
+  position: relative;
+  transition: .25s;
+}
+
+.todo ul.list > li {
+  color: #34495e;
+  margin-top: 0px;
+  background: #fff;
+  border-top: 1px solid #ddd;
+}
+
+.todo ul.list > li.todo-done:after, .todo li:after, .todo-search::before {
+  content: none;
+}
+
+.todo-icon {
+  padding: 0px 22px 0 0;
+  margin-top: 13px;
+}
+
+h4.todo-name {
+  display: inline-block;
+  margin-top: 13px;
+  margin-bottom: 0px;
+  color: #34495e;
+  font-weight: 500;
+}
+
+.todo-content button, .todo-search button, .todo-content .btn-group {
+  float: right;
+  display: inline-block;
+  margin: 0;
+  width: 150px;
+}
+
+.todo ul.list > li.start-arrow:after {
+  content: "\f175";
+  font-family: 'FontAwesome';
+  text-align: center;
+  font-size: 36px;
+  line-height: 21px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: none;
+  color: #3498db;
+  width: auto;
+  height: auto;
+  left: 2.5%;
+  right: auto;
+  top: 90%;
+  z-index: 99;
+  margin-top: auto;
+}
+
+#toast-container > div {
+  width: auto;
+  height: 100px;
+  box-shadow: none;
+  opacity: 1;
+}
+
+#toast-container > div:hover {
+  box-shadow: none;
+}
+
+.toast-message {
+  font-size: 20px;
+  letter-spacing: 0.7px;
+  font-weight: 600;
+  margin-top: 15px;
+  margin-left: 15px;
+  margin-right: 25px;
+}
+
+.notification0 {
+  background-color: #2980B9;
+}
+
+.notification1 {
+  background-color: #F39C12;
+}
+
+.notification2 {
+  background-color: #D35400;
+}
+
+.notification3 {
+  background-color: #16A085;
+}
+
+.notification4 {
+  background-color: #2C3E50;
+}
+
+.toast-error, .notification5 {
+  background-color: #C0392B;
+}
+
+#toast-container > .toast-info {
+  background-image: none !important;
+}
+
+#toast-container > .toast-info:before {
+  content: "\f05a";
+  font-family: 'FontAwesome';
+  text-align: center;
+  font-size: 24px;
+  line-height: 21px;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: none;
+  left: 8%;
+  right: auto;
+  top: 38%;
+  position: absolute;
+  color: #BDC3C7;
+}
+
+.todo-search .btn-group button:after {
+  content: none;
+}
+
+.todo-search .btn-group {
+  position: absolute;
+  right: 17%;
+}
+
+.todo .dropdown-menu li:last-child {
+  border-radius: 0 0 6px 6px;
+  padding-bottom: 0px;
+}
+
+.todo-content .btn-group.show .btn {
+  margin-top: -35px;
+}
+
+.todo-search p {
+  display: inline-block;
+}
+
+li .todo-name span {
+  width: 80px;
+  display: inline-block;
+  text-align: left;
+}
+
+li .todo-name span:first-child {
+  width: 40px;
+}
+
+li .todo-name span:nth-child(3), li .todo-name span:nth-child(4) {
+  width: 60px;
+}
+
+li .todo-name span:last-child {
+  text-align: center;
+  font-weight: 900;
+}
+
+#flights li:first-child {
+  border-radius: 6px 6px 0px 0px;
+}
+
+.d-inline {
+  display: inline-block;
+}
+
+.form-group {
+  margin-bottom: 0px;
+}
+
+.form-group .form-control {
+  width: auto;
+}
+
+.todo.functions ul.list > li {
+  padding: 10px 25px;
+}
+</style>
