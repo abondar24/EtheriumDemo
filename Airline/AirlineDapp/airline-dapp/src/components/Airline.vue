@@ -57,7 +57,8 @@
         </div>
         <ul class="list">
           <li class="">
-            <div class="todo-icon fa fa-plane">
+            <div class="todo-icon">
+              <font-awesome-icon icon="plane"/>
             </div>
             <div class="todo-content">
               <h4 class="todo-name">
@@ -78,7 +79,9 @@
             </div>
           </li>
           <li class="">
-            <div class="todo-icon fui-user"></div>
+            <div class="todo-icon">
+              <font-awesome-icon icon="user"/>
+            </div>
             <div class="todo-content">
               <h4 class="todo-name">
                 <strong>Chairperson can unregister</strong>
@@ -103,7 +106,9 @@
         </div>
         <ul class="list">
           <li class="">
-            <div class="todo-icon fa fa-share"></div>
+            <div class="todo-icon">
+              <font-awesome-icon icon="share"/>
+            </div>
             <div class="todo-content">
               <h4 class="todo-name">
                 <strong>Request</strong>
@@ -130,7 +135,9 @@
             </div>
           </li>
           <li class="">
-            <div class="todo-icon fa fa-reply"></div>
+            <div class="todo-icon">
+              <font-awesome-icon icon="reply"/>
+            </div>
             <div class="todo-content">
               <div class="todo-name">
                 <h4 class="todo-name">
@@ -153,7 +160,9 @@
             </div>
           </li>
           <li class="">
-            <div class="todo-icon fa fa-money"></div>
+            <div class="todo-icon">
+              <font-awesome-icon icon="money-bill"/>
+            </div>
             <div class="todo-content">
               <h4 class="todo-name">
                 <strong>Settle</strong>
@@ -175,7 +184,9 @@
       </div>
       <div class="todo-functions">
         <div class="todo-search" style="border-radius: 6px; padding: 15px 25px;"></div>
-        <div class="todo-icon fa fa-handshake-o" style="margin-top: 5px;"></div>
+        <div class="todo-icon" style="margin-top: 5px;">
+          <font-awesome-icon icon="handshake"/>
+        </div>
         <p style="display: inline-block;">Replenish Escrow</p>
         <button id="replenish" class="btn btn-info" style="margin-top: -4px;" v-on:click="handleReplenish">
           Replenish
@@ -291,7 +302,7 @@ body .container {
 
 .todo ul.list > li {
   color: #34495e;
-  margin-top: 0px;
+  margin-top: 0;
   background: #fff;
   border-top: 1px solid #ddd;
 }
@@ -301,14 +312,14 @@ body .container {
 }
 
 .todo-icon {
-  padding: 0px 22px 0 0;
+  padding: 0 22px 0 0;
   margin-top: 13px;
 }
 
 h4.todo-name {
   display: inline-block;
   margin-top: 13px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   color: #34495e;
   font-weight: 500;
 }
@@ -422,7 +433,7 @@ h4.todo-name {
 
 .todo .dropdown-menu li:last-child {
   border-radius: 0 0 6px 6px;
-  padding-bottom: 0px;
+  padding-bottom: 0;
 }
 
 .todo-content .btn-group.show .btn {
@@ -453,7 +464,7 @@ li .todo-name span:last-child {
 }
 
 #flights li:first-child {
-  border-radius: 6px 6px 0px 0px;
+  border-radius: 6px 6px 0 0;
 }
 
 .d-inline {
@@ -461,7 +472,7 @@ li .todo-name span:last-child {
 }
 
 .form-group {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .form-group .form-control {
