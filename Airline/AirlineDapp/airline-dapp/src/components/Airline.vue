@@ -365,38 +365,6 @@ h4.todo-name {
   box-shadow: none;
 }
 
-.toast-message {
-  font-size: 20px;
-  letter-spacing: 0.7px;
-  font-weight: 600;
-  margin-top: 15px;
-  margin-left: 15px;
-  margin-right: 25px;
-}
-
-.notification0 {
-  background-color: #2980B9;
-}
-
-.notification1 {
-  background-color: #F39C12;
-}
-
-.notification2 {
-  background-color: #D35400;
-}
-
-.notification3 {
-  background-color: #16A085;
-}
-
-.notification4 {
-  background-color: #2C3E50;
-}
-
-.toast-error, .notification5 {
-  background-color: #C0392B;
-}
 
 #toast-container > .toast-info {
   background-image: none !important;
