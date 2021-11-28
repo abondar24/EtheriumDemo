@@ -250,9 +250,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-
-body .container {
+.container {
   width: 96%;
 }
 
@@ -308,7 +306,7 @@ body .container {
 }
 
 .todo-icon {
-  padding: 0px 22px 0 0;
+  padding: 0 22px 0 0;
   margin-top: 13px;
 }
 
@@ -348,42 +346,6 @@ h4.todo-name {
   top: 90%;
   z-index: 99;
   margin-top: auto;
-}
-
-#toast-container > div {
-  width: auto;
-  height: 100px;
-  box-shadow: none;
-  opacity: 1;
-}
-
-#toast-container > div:hover {
-  box-shadow: none;
-}
-
-
-#toast-container > .toast-info {
-  background-image: none !important;
-}
-
-#toast-container > .toast-info:before {
-  content: "\f05a";
-  font-family: 'FontAwesome';
-  text-align: center;
-  font-size: 24px;
-  line-height: 21px;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: none;
-  left: 8%;
-  right: auto;
-  top: 38%;
-  position: absolute;
-  color: #BDC3C7;
 }
 
 .todo-search .btn-group button:after {
