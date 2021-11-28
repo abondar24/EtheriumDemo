@@ -33,10 +33,10 @@
                     </strong>
                   </span>
                   <span>
-                      {{ fromCity }}
+                      {{ srcCity }}
                   </span>
                   <span>
-                      {{ toCity }}
+                      {{ dstCity }}
                   </span>
                   <span class="depTime">
                     {{ depTime }}
@@ -53,93 +53,89 @@
       <div class="col-lg-8">
         <h1 class="section-title">Airline Consortium</h1>
         <div class="todo functions">
-          <p>Registration</p>
-        </div>
-        <ul class="list">
-          <li class="">
-            <div class="todo-icon">
-              <font-awesome-icon icon="plane"/>
-            </div>
-            <div class="todo-content">
-              <h4 class="todo-name">
-                <strong>Airlines Registration</strong>
-              </h4>
-              <button id="register" class="btn btn-info" v-on:click="handleRegister">
-                <i class="fa fa-plane" style="font-size: 17px; margin-right: 5px;">
-                  Register
-                </i>
-              </button>
-              <div class="form-group d-inline"
-                   style="float: right; margin-right: 20px;">
-                <input type="text" class="form-group d-inline" placeholder="Enter deposit"
-                       id="airlineDeposit"
-                       v-model="airlineDeposit"
-                       style="margin-right: 5px;"/>
+          <div class="todo-search">
+            <p>Registration</p>
+          </div>
+          <ul class="list">
+            <li class="">
+              <div class="todo-icon">
+                <font-awesome-icon icon="plane"/>
               </div>
-            </div>
-          </li>
-          <li class="">
-            <div class="todo-icon">
-              <font-awesome-icon icon="user"/>
-            </div>
-            <div class="todo-content">
-              <h4 class="todo-name">
-                <strong>Chairperson can unregister</strong>
-              </h4>
-              <button id="unregister" class="btn btn-info" v-on:click="handleUnregister">
-                <i class="fui-user" style="font-size: 17px; margin-right: 5px;"></i>
-                Unregister
-              </button>
-              <div class="form-group d-inline" style="float: right; margin-right: 20px;">
-                <input type="text" class="form-control" placeholder="Enter airline address"
-                       id="airlineAddress"
-                       v-model="airlineAddress"
-                       style="margin-right: 5px;"/>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="todo functions">
-        <div class="todo-search">
-          <p>Change seats record</p>
-        </div>
-        <ul class="list">
-          <li class="">
-            <div class="todo-icon">
-              <font-awesome-icon icon="share"/>
-            </div>
-            <div class="todo-content">
-              <h4 class="todo-name">
-                <strong>Request</strong>
-              </h4>
-              <button id="request" class="btn btn-info" v-on:click="handleRequest">
-                Request
-              </button>
-              <div style="float: right; margin-right: 20px">
-                <div class="form-group">
-                  <input type="text" class="form-control d-inline" placeholder="Enter request id"
-                         id="reqId" style="margin-right: 5px;" v-model="reqId">
-                  <input type="text" class="form-control d-inline" placeholder="Enter flight id"
-                         id="flId" style="margin-right: 5px;" v-model="reqFlightId">
-                  <input type="text" class="form-control d-inline" placeholder="Enter passenger id"
-                         id="psgId" style="margin-right: 5px;" v-model="reqPassId">
-                </div>
-                <div class="form-group" style="margin-top: 10px;">
-                  <input type="text" class="form-control d-inline" placeholder="Number of seats"
-                         id="seatNum" style="margin-right: 5px;" v-model="reqNumSeats">
-                  <input type="text" class="form-control d-inline" placeholder="Destination Airline Address"
-                         id="dstAddr" style="margin-right: 5px;" v-model="reqDstAddr">
+              <div class="todo-content">
+                <h4 class="todo-name">
+                  <strong>Airlines Registration</strong>
+                </h4>
+                <button id="register" class="btn btn-info" v-on:click="handleRegister">
+                    Register
+                </button>
+                <div class="form-group d-inline" style="float: right; margin-right: 20px;">
+                  <input type="text" class="form-control" placeholder="Enter deposit"
+                         id="airlineDeposit"
+                         v-model="airlineDeposit"
+                         style="margin-right: 5px;"/>
                 </div>
               </div>
-            </div>
-          </li>
-          <li class="">
-            <div class="todo-icon">
-              <font-awesome-icon icon="reply"/>
-            </div>
-            <div class="todo-content">
-              <div class="todo-name">
+            </li>
+            <li class="">
+              <div class="todo-icon">
+                <font-awesome-icon icon="user"/>
+              </div>
+              <div class="todo-content">
+                <h4 class="todo-name">
+                  <strong>Chairperson can unregister</strong>
+                </h4>
+                <button id="unregister" class="btn btn-info" v-on:click="handleUnregister">
+                  Unregister
+                </button>
+                <div class="form-group d-inline" style="float: right; margin-right: 20px;">
+                  <input type="text" class="form-control" placeholder="Enter airline address"
+                         id="airlineAddress"
+                         v-model="airlineAddress"
+                         style="margin-right: 5px;"/>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="todo functions">
+          <div class="todo-search">
+            <p>Change seats record</p>
+          </div>
+          <ul class="list">
+            <li class="">
+              <div class="todo-icon">
+                <font-awesome-icon icon="share"/>
+              </div>
+              <div class="todo-content">
+                <h4 class="todo-name">
+                  <strong>Request</strong>
+                </h4>
+                <button id="request" class="btn btn-info" v-on:click="handleRequest">
+                  Request
+                </button>
+                <div style="float: right; margin-right: 20px;">
+                  <div class="form-group">
+                    <input type="text" class="form-control d-inline" placeholder="Enter request id"
+                           id="reqId" style="margin-right: 5px;" v-model="reqId">
+                    <input type="text" class="form-control d-inline" placeholder="Enter flight id"
+                           id="flId" style="margin-right: 5px;" v-model="reqFlightId">
+                    <input type="text" class="form-control d-inline" placeholder="Enter passenger id"
+                           id="psgId" style="margin-right: 5px;" v-model="reqPassId">
+                  </div>
+                  <div class="form-group" style="margin-top: 10px;">
+                    <input type="text" class="form-control d-inline" placeholder="Number of seats"
+                           id="seatNum" style="margin-right: 5px;" v-model="reqNumSeats">
+                    <input type="text" class="form-control d-inline" placeholder="Destination Airline Address"
+                           id="dstAddr" style="margin-right: 5px;" v-model="reqDstAddr">
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="">
+              <div class="todo-icon">
+                <font-awesome-icon icon="reply"/>
+              </div>
+              <div class="todo-content">
                 <h4 class="todo-name">
                   <strong>
                     Response
@@ -157,43 +153,45 @@
                          id="srcAddr" style="margin-right: 5px;" v-model="respSrcAddr">
                 </div>
               </div>
-            </div>
-          </li>
-          <li class="">
-            <div class="todo-icon">
-              <font-awesome-icon icon="money-bill"/>
-            </div>
-            <div class="todo-content">
-              <h4 class="todo-name">
-                <strong>Settle</strong>
-              </h4>
-              <button id="settle" class="btn btn-info" v-on:click="handleSettle">
-                Settle payment
-              </button>
-              <div class="form-group d-inline" style="float: right; margin-right: 20px;">
-                <input type="text" class="form-control d-inline" placeholder="Enter request id"
-                       id="stReqId" style="margin-right: 5px;" v-model="stReqId">
-                <input type="text" class="form-control d-inline" placeholder="Number of seats"
-                       id="stSeats" style="margin-right: 5px;" v-model="stSeatsNum">
-                <input type="text" class="form-control d-inline" placeholder="Destination airline address"
-                       id="stAddr" style="margin-right: 5px;" v-model="stAddr">
+            </li>
+            <li class="">
+              <div class="todo-icon">
+                <font-awesome-icon icon="money-bill"/>
               </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="todo-functions">
-        <div class="todo-search" style="border-radius: 6px; padding: 15px 25px;"></div>
-        <div class="todo-icon" style="margin-top: 5px;">
-          <font-awesome-icon icon="handshake"/>
+              <div class="todo-content">
+                <h4 class="todo-name">
+                  <strong>Settle</strong>
+                </h4>
+                <button id="settle" class="btn btn-info" v-on:click="handleSettle">
+                  Settle payment
+                </button>
+                <div class="form-group d-inline" style="float: right; margin-right: 20px;">
+                  <input type="text" class="form-control d-inline" placeholder="Enter request id"
+                         id="stReqId" style="margin-right: 5px;" v-model="stReqId">
+                  <input type="text" class="form-control d-inline" placeholder="Number of seats"
+                         id="stSeats" style="margin-right: 5px;" v-model="stSeatsNum">
+                  <input type="text" class="form-control d-inline" placeholder="Destination airline address"
+                         id="stAddr" style="margin-right: 5px;" v-model="stAddr">
+                </div>
+              </div>
+            </li>
+
+          </ul>
         </div>
-        <p style="display: inline-block;">Replenish Escrow</p>
-        <button id="replenish" class="btn btn-info" style="margin-top: -4px;" v-on:click="handleReplenish">
-          Replenish
-        </button>
-        <div class="form-group d-inline" style="float: right; margin-right: 20px; margin-top: -4px">
-          <input type="text" class="form-control d-inline" placeholder="Destination airline address"
-                 id="repl" style="margin-right: 5px;" v-model="rplAmt">
+        <div class="todo-functions">
+          <div class="todo-search" style="border-radius: 6px; padding: 15px 25px;">
+            <div class="todo-icon" style="margin-top: 5px;">
+              <font-awesome-icon icon="handshake"/>
+            </div>
+            <p style="display: inline-block;">Replenish Escrow</p>
+            <button id="replenish" class="btn btn-info" style="margin-top: -4px;" v-on:click="handleReplenish">
+              Replenish
+            </button>
+            <div class="form-group d-inline" style="float: right; margin-right: 20px; margin-top: -4px;">
+              <input type="text" class="form-control d-inline" placeholder="Enter the amount"
+                     id="repl" style="margin-right: 5px;" v-model="rplAmt">
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -207,8 +205,8 @@ export default {
     return {
       flightId: 0,
       airline: '',
-      fromCity: '',
-      toCity: '',
+      srcCity: '',
+      dstCity: '',
       depTime: '',
       seats: 0,
       airlineDeposit: '',
@@ -252,9 +250,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-body {
-  background-color: #ebeff2;
-}
+
 
 body .container {
   width: 96%;
@@ -312,7 +308,7 @@ body .container {
 }
 
 .todo-icon {
-  padding: 0 22px 0 0;
+  padding: 0px 22px 0 0;
   margin-top: 13px;
 }
 
