@@ -50,51 +50,49 @@
       </div>
       <div class="col align-self-start">
         <h1 class="section-title">Airline Consortium</h1>
-        <div class="todo functions">
-          <div class="todo-search">
-            <p>Registration</p>
+        <div>
+          <div class="row g-3 align-items-center">
+            <h4>
+             Airlines Registration
+            </h4>
+            <div class="col-auto">
+              <font-awesome-icon icon="plane"/>
+            </div>
+            <div class="col-auto">
+              <input type="text" class="form-control" placeholder="Enter deposit"
+                     id="airlineDeposit"
+                     v-model="airlineDeposit"
+                     style="margin-right: 5px;"/>
+            </div>
+            <div class="col-auto">
+              <button id="register" class="btn btn-info" v-on:click="handleRegister">
+                Register
+              </button>
+            </div>
           </div>
-          <ul class="list">
-            <li class="">
-              <div class="todo-icon">
-                <font-awesome-icon icon="plane"/>
-              </div>
-              <div class="todo-content">
-                <h4 class="todo-name">
-                  <strong>Airlines Registration</strong>
-                </h4>
-                <button id="register" class="btn btn-info" v-on:click="handleRegister">
-                  Register
-                </button>
-                <div class="form-group d-inline" style="float: right; margin-right: 20px;">
-                  <input type="text" class="form-control" placeholder="Enter deposit"
-                         id="airlineDeposit"
-                         v-model="airlineDeposit"
-                         style="margin-right: 5px;"/>
-                </div>
-              </div>
-            </li>
-            <li class="">
-              <div class="todo-icon">
-                <font-awesome-icon icon="user"/>
-              </div>
-              <div class="todo-content">
-                <h4 class="todo-name">
-                  <strong>Chairperson can unregister</strong>
-                </h4>
-                <button id="unregister" class="btn btn-info" v-on:click="handleUnregister">
-                  Unregister
-                </button>
-                <div class="form-group d-inline" style="float: right; margin-right: 20px;">
-                  <input type="text" class="form-control" placeholder="Enter airline address"
-                         id="airlineAddress"
-                         v-model="airlineAddress"
-                         style="margin-right: 5px;"/>
-                </div>
-              </div>
-            </li>
-          </ul>
+          <div class="row g-3 align-items-center" style="margin-top: 10px">
+            <h4>
+             Airline Unregister
+            </h4>
+            <p>Only chairperson can do it</p>
+            <div class="col-auto">
+              <font-awesome-icon icon="user"/>
+            </div>
+            <div class="col-auto">
+              <input type="text" class="form-control" placeholder="Enter airline address"
+                     id="airlineAddress"
+                     v-model="airlineAddress"
+                     style="margin-right: 5px;"/>
+            </div>
+            <div class="col-auto">
+              <button id="unregister" class="btn btn-info" v-on:click="handleUnregister">
+                Unregister
+              </button>
+            </div>
+          </div>
         </div>
+
+        <!--        TODO: change-->
         <div class="todo functions">
           <div class="todo-search">
             <p>Change seats record</p>
@@ -341,5 +339,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.btn{
+  width: 100px;
+}
 </style>
