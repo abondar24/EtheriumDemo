@@ -20,28 +20,28 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="flight in flights" :key="flight.id">
+            <tr v-for="flight in flights" :key="flight.FlightID">
               <td>
                 <strong>
-                  {{ flight.flightId }}
+                  {{ flight.FlightID }}
                 </strong>
               </td>
               <td>
                 <strong>
-                  {{ flight.airline }}
+                  {{ flight.Airline }}
                 </strong>
               </td>
               <td>
-                {{ flight.srcCity }}
+                {{ flight.FromCity }}
               </td>
               <td>
-                {{ flight.dstCity }}
+                {{ flight.ToCity }}
               </td>
               <td class="depTime">
-                {{ flight.depTime }}
+                {{ flight.DepTime }}
               </td>
               <td class="seats">
-                {{ seats }}
+                {{ flight.SeatsAvail }}
               </td>
             </tr>
             </tbody>
@@ -197,11 +197,11 @@
 </template>
 
 <script>
-import Web3 from 'web3'
+//import Web3 from 'web3'
 import axios from 'axios'
-import data from '../../Airline.json'
-import TruffleContract from 'truffle-contract'
-import Airline from "@/components/Airline";
+//import data from '../../Airline.json'
+//import TruffleContract from 'truffle-contract'
+//import Airline from "@/components/Airline";
 
 export default {
   name: 'Airline',
@@ -231,109 +231,110 @@ export default {
     }
   },
   mounted() {
-    const web3Provider = new Web3.providers.HttpProvider(this.ethUrl);
-    this.web3 = new Web3(web3Provider);
-
-    this.contract = TruffleContract(data);
-    this.contract.setProvider(web3Provider);
-
-
-    this.contract.deployed()
-        .then(function (instance) {
-          return instance;
-        })
+    // const web3Provider = new Web3.providers.HttpProvider(this.ethUrl);
+    // this.web3 = new Web3(web3Provider);
+    //
+    // this.contract = TruffleContract(data);
+    // this.contract.setProvider(web3Provider);
+    //
+    //
+    // this.contract.deployed()
+    //     .then(function (instance) {
+    //       return instance;
+    //     })
 
 
     axios.get(this.dataUrl + "/flights?offset=0&limit=6")
         .then(response => {
           this.flights = response.data.flights;
         })
+        .catch(err => this.notification = err.message);
   },
   methods: {
     handleRegister() {
-      const deposit = this.airlineDeposit;
-      this.contract.deployed()
-          .then(function (instance) {
-            return instance.register({value: this.web3.toWei(deposit, "ether")});
-          })
-          .catch(err => this.notification = err.message)
+      // const deposit = this.airlineDeposit;
+      // this.contract.deployed()
+      //     .then(function (instance) {
+      //       return instance.register({value: this.web3.toWei(deposit, "ether")});
+      //     })
+      //     .catch(err => this.notification = err.message)
     },
     handleUnregister() {
-      const addr = this.airlineAddress;
-      this.contract.deployed()
-          .then(function (instance) {
-            return instance.unregister(addr);
-          })
-          .catch(err => this.notification = err.message)
+      // const addr = this.airlineAddress;
+      // this.contract.deployed()
+      //     .then(function (instance) {
+      //       return instance.unregister(addr);
+      //     })
+      //     .catch(err => this.notification = err.message)
     },
     handleRequest() {
-      const reqId = this.reqId;
-      const flightId = this.reqFlightId;
-      const passId = this.reqPassId;
-      const numSeats = this.reqNumSeats;
-      const dstAddr = this.reqDstAddr;
-
-      this.contract.deployed()
-          .then(function (instance) {
-            return instance.request(reqId, flightId, passId, numSeats, dstAddr);
-          })
-          .catch(err => this.notification = err.message)
-
-      this.requests.push({
-        id: reqId,
-        flightId: flightId
-      })
+      // const reqId = this.reqId;
+      // const flightId = this.reqFlightId;
+      // const passId = this.reqPassId;
+      // const numSeats = this.reqNumSeats;
+      // const dstAddr = this.reqDstAddr;
+      //
+      // this.contract.deployed()
+      //     .then(function (instance) {
+      //       return instance.request(reqId, flightId, passId, numSeats, dstAddr);
+      //     })
+      //     .catch(err => this.notification = err.message)
+      //
+      // this.requests.push({
+      //   id: reqId,
+      //   flightId: flightId
+      // })
     },
     handleResponse() {
-      const reqId = this.respReqId;
-      const success = this.respSuccess;
-      const srcAddr = this.respSrcAddr;
-
-      this.contract.deployed()
-          .then(function (instance) {
-            return instance.response(reqId, success, srcAddr);
-          })
-          .catch(err => this.notification = err.message)
+      // const reqId = this.respReqId;
+      // const success = this.respSuccess;
+      // const srcAddr = this.respSrcAddr;
+      //
+      // this.contract.deployed()
+      //     .then(function (instance) {
+      //       return instance.response(reqId, success, srcAddr);
+      //     })
+      //     .catch(err => this.notification = err.message)
     },
     handleSettle() {
-      const reqId = this.stReqId;
-      const seats = this.stSeatsNum;
-      const airline = this.stAddr;
-
-      const flightId = this.requests[reqId].flightId;
-
-      this.contract.deployed()
-          .then(function (instance) {
-            return instance.settlePayment(reqId, airline, seats);
-          })
-          .then(function () {
-                Airline.methods.updateSeats(seats,flightId)
-          })
-          .catch(err => this.notification = err.message)
+      // const reqId = this.stReqId;
+      // const seats = this.stSeatsNum;
+      // const airline = this.stAddr;
+      //
+      // const flightId = this.requests[reqId].flightId;
+      //
+      // this.contract.deployed()
+      //     .then(function (instance) {
+      //       return instance.settlePayment(reqId, airline, seats);
+      //     })
+      //     .then(function () {
+      //           Airline.methods.updateSeats(seats,flightId)
+      //     })
+      //     .catch(err => this.notification = err.message)
     },
     handleReplenish() {
-       const amount = this.rplAmt;
-
-      this.contract.deployed()
-          .then(function (instance) {
-            return instance.replenishEscrow({ value: this.web3.toWei(amount, "ether") });
-          })
-          .catch(err => this.notification = err.message)
+      //  const amount = this.rplAmt;
+      //
+      // this.contract.deployed()
+      //     .then(function (instance) {
+      //       return instance.replenishEscrow({ value: this.web3.toWei(amount, "ether") });
+      //     })
+      //     .catch(err => this.notification = err.message)
     },
-    updateSeats(seats, flightId) {
-      const updFlights = this.flights;
-      axios.put(this.dataUrl + "/seats", {
-        "flightId": flightId,
-        "seats": seats
-      }).then(response => {
-        if (response.status === 200) {
-          updFlights[flightId].seats = seats;
-        }
-      })
-          .catch(err => this.notification = err.message);
-
-      this.flights = updFlights;
-    }
+    // updateSeats(seats, flightId) {
+    //   const updFlights = this.flights;
+    //   axios.put(this.dataUrl + "/seats", {
+    //     "flightId": flightId,
+    //     "seats": seats
+    //   }).then(response => {
+    //     if (response.status === 200) {
+    //       updFlights[flightId].seats = seats;
+    //     }
+    //   })
+    //       .catch(err => this.notification = err.message);
+    //
+    //   this.flights = updFlights;
+    // }
   }
 }
 </script>
