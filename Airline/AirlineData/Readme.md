@@ -53,6 +53,6 @@ java -jar build/libs/AirlineData-1.0-SNAPSHOT-all.jar
 ## Import data to database
 
 ```
-mongoimport --username <username> --password <password> --authenticationDatabase admin --db airline --collection flight --drop --type json  --file data.json --jsonArray
+mongoimport --username <username> --password <password> --authenticationDatabase admin --db airline --collection flight --drop --type json  --file src/main/resources/data.json --jsonArray
 
 ```
