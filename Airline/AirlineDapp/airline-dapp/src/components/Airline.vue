@@ -4,7 +4,7 @@
       {{ notification }}
     </div>
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col align-self-start">
         <h1 class="section-title"> Available Seats</h1>
         <div class="todo">
 
@@ -48,7 +48,7 @@
           </table>
         </div>
       </div>
-      <div class="col-lg-8">
+      <div class="col align-self-start">
         <h1 class="section-title">Airline Consortium</h1>
         <div class="todo functions">
           <div class="todo-search">
@@ -341,162 +341,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.container {
-  width: 96%;
-}
 
-.form-group.focus .form-control, .form-group.focus .select2-search input[type="text"], .select2-search .form-group.focus input[type="text"], .form-control:focus, .select2-search input[type="text"]:focus {
-  border-color: #3498db;
-}
-
-.section-title {
-  font: 900 32px/40px "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin: 50px 0;
-  text-align: center;
-}
-
-.todo-search {
-  background: #fff;
-  color: #34495e;
-}
-
-.todo-search p {
-  font-weight: 600;
-  font-size: 20px;
-  margin: 0;
-}
-
-.todo ul.list {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  border-radius: 0 0 6px 6px;
-}
-
-.todo ul.list > li {
-  background: #34495e;
-  background-size: 20px 20px;
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1.214;
-  margin-top: 2px;
-  padding: 18px 25px 21px 25px;
-  position: relative;
-  transition: .25s;
-}
-
-.todo ul.list > li {
-  color: #34495e;
-  margin-top: 0;
-  background: #fff;
-  border-top: 1px solid #ddd;
-}
-
-.todo ul.list > li.todo-done:after, .todo li:after, .todo-search::before {
-  content: none;
-}
-
-.todo-icon {
-  padding: 0 22px 0 0;
-  margin-top: 13px;
-}
-
-h4.todo-name {
-  display: inline-block;
-  margin-top: 13px;
-  margin-bottom: 0;
-  color: #34495e;
-  font-weight: 500;
-}
-
-.todo-content button, .todo-search button, .todo-content .btn-group {
-  float: right;
-  display: inline-block;
-  margin: 0;
-  width: 150px;
-}
-
-.todo ul.list > li.start-arrow:after {
-  content: "\f175";
-  font-family: 'FontAwesome';
-  text-align: center;
-  font-size: 36px;
-  line-height: 21px;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: none;
-  color: #3498db;
-  width: auto;
-  height: auto;
-  left: 2.5%;
-  right: auto;
-  top: 90%;
-  z-index: 99;
-  margin-top: auto;
-}
-
-.todo-search .btn-group button:after {
-  content: none;
-}
-
-.todo-search .btn-group {
-  position: absolute;
-  right: 17%;
-}
-
-.todo .dropdown-menu li:last-child {
-  border-radius: 0 0 6px 6px;
-  padding-bottom: 0;
-}
-
-.todo-content .btn-group.show .btn {
-  margin-top: -35px;
-}
-
-.todo-search p {
-  display: inline-block;
-}
-
-li .todo-name span {
-  width: 80px;
-  display: inline-block;
-  text-align: left;
-}
-
-li .todo-name span:first-child {
-  width: 40px;
-}
-
-li .todo-name span:nth-child(3), li .todo-name span:nth-child(4) {
-  width: 60px;
-}
-
-li .todo-name span:last-child {
-  text-align: center;
-  font-weight: 900;
-}
-
-#flights li:first-child {
-  border-radius: 6px 6px 0 0;
-}
-
-.d-inline {
-  display: inline-block;
-}
-
-.form-group {
-  margin-bottom: 0;
-}
-
-.form-group .form-control {
-  width: auto;
-}
-
-.todo.functions ul.list > li {
-  padding: 10px 25px;
-}
 </style>
