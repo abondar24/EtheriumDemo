@@ -1,5 +1,4 @@
-{
-  "flights": [
+[
     {
       "FlightID": 1,
       "Airline": "AirlineA",
@@ -49,4 +48,3 @@
       "SeatsAvail": 2
     }
   ]
-}
