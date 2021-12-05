@@ -3,190 +3,167 @@
     <div class="alert alert-danger" role="alert" v-if="notification.length >0">
       {{ notification }}
     </div>
-    <div class="row">
-      <div class="col align-self-start">
+    <div class="row" id="ctr">
+      <div class="col-md-7">
         <h1 class="section-title"> Available Seats</h1>
-        <div class="todo">
-
-          <table class="table">
-            <thead>
-            <tr>
-              <th>FID</th>
-              <th>Airline</th>
-              <th>From</th>
-              <th>To</th>
-              <th class="depTime">DepTime</th>
-              <th style="font-weight: 700;">AvailSeats</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="flight in flights" :key="flight.FlightID">
-              <td>
-                <strong>
-                  {{ flight.FlightID }}
-                </strong>
-              </td>
-              <td>
-                <strong>
-                  {{ flight.Airline }}
-                </strong>
-              </td>
-              <td>
-                {{ flight.FromCity }}
-              </td>
-              <td>
-                {{ flight.ToCity }}
-              </td>
-              <td class="depTime">
-                {{ flight.DepTime }}
-              </td>
-              <td class="seats">
-                {{ flight.SeatsAvail }}
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
+        <table class="table table-responsive-md">
+          <thead>
+          <tr>
+            <th>FID</th>
+            <th>Airline</th>
+            <th>From</th>
+            <th>To</th>
+            <th class="depTime">Departure Time</th>
+            <th style="font-weight: 700;">Available Seats</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="flight in flights" :key="flight.FlightID">
+            <td>
+              <strong>
+                {{ flight.FlightID }}
+              </strong>
+            </td>
+            <td>
+              <strong>
+                {{ flight.Airline }}
+              </strong>
+            </td>
+            <td>
+              {{ flight.FromCity }}
+            </td>
+            <td>
+              {{ flight.ToCity }}
+            </td>
+            <td class="depTime">
+              {{ flight.DepTime }}
+            </td>
+            <td class="seats">
+              {{ flight.SeatsAvail }}
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="col align-self-start">
+      <div class="col-md-5">
         <h1 class="section-title">Airline Consortium</h1>
-        <div>
-          <div class="row g-3 align-items-center">
-            <h4>
-             Airlines Registration
-            </h4>
-            <div class="col-auto">
-              <font-awesome-icon icon="plane"/>
-            </div>
-            <div class="col-auto">
-              <input type="text" class="form-control" placeholder="Enter deposit"
-                     id="airlineDeposit"
-                     v-model="airlineDeposit"
-                     style="margin-right: 5px;"/>
-            </div>
-            <div class="col-auto">
-              <button id="register" class="btn btn-info" v-on:click="handleRegister">
-                Register
-              </button>
-            </div>
+        <div class="row">
+          <h4>
+            Airlines Registration
+          </h4>
+          <div class="input-group mb-3 ">
+                <span class="input-group-text">
+                  <font-awesome-icon icon="plane"/>
+                </span>
+            <input type="text" class="form-control" placeholder="Enter deposit"
+                   id="airlineDeposit"
+                   v-model="airlineDeposit"/>
+            <button id="register" class="btn btn-dark" v-on:click="handleRegister">
+              Register
+            </button>
           </div>
-          <div class="row g-3 align-items-center" style="margin-top: 10px">
-            <h4>
-             Airline Unregister
-            </h4>
-            <p>Only chairperson can do it</p>
-            <div class="col-auto">
-              <font-awesome-icon icon="user"/>
-            </div>
-            <div class="col-auto">
-              <input type="text" class="form-control" placeholder="Enter airline address"
-                     id="airlineAddress"
-                     v-model="airlineAddress"
-                     style="margin-right: 5px;"/>
-            </div>
-            <div class="col-auto">
-              <button id="unregister" class="btn btn-info" v-on:click="handleUnregister">
-                Unregister
-              </button>
-            </div>
+
+        </div>
+        <div class="row form-row">
+          <h4>
+            Airline Unregister(only chairperson can do it)
+          </h4>
+          <div class="input-group mb-3">
+                <span class="input-group-text">
+                  <font-awesome-icon icon="user"/>
+                </span>
+            <input type="text" class="form-control" placeholder="Enter airline address"
+                   id="airlineAddress"
+                   v-model="airlineAddress"
+            />
+            <button id="unregister" class="btn btn-dark" v-on:click="handleUnregister">
+              Unregister
+            </button>
+          </div>
+
+        </div>
+        <div class="row form-row" >
+          <h4 class="todo-name">
+            Seat change request
+          </h4>
+          <div class="input-group mb-3">
+                <span class="input-group-text">
+                  <font-awesome-icon icon="share"/>
+                </span>
+            <input type="text" class="form-control d-inline" placeholder="Enter request id"
+                   id="reqId" v-model="reqId">
+
+            <input type="text" class="form-control d-inline" placeholder="Enter flight id"
+                   id="flId" v-model="reqFlightId">
+            <input type="text" class="form-control d-inline" placeholder="Enter passenger id"
+                   id="psgId" v-model="reqPassId">
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control d-inline" placeholder="Number of seats"
+                   id="seatNum" v-model="reqNumSeats">
+            <input type="text" class="form-control d-inline" placeholder="Destination Address"
+                   id="dstAddr" v-model="reqDstAddr">
+            <button id="request" class="btn btn-dark" v-on:click="handleRequest">
+              Request
+            </button>
           </div>
         </div>
-
-        <!--        TODO: change-->
-        <div class="todo functions">
-          <div class="todo-search">
-            <p>Change seats record</p>
+        <div class="row form-row">
+          <h4 class="todo-name">
+            Seat change response
+          </h4>
+          <div class="input-group mb-3">
+              <span class="input-group-text">
+                   <font-awesome-icon icon="reply"/>
+                </span>
+            <input type="text" class="form-control d-inline" placeholder="Enter request id"
+                   id="respId" v-model="respReqId">
+            <input type="text" class="form-control d-inline" placeholder="Is success?"
+                   id="sccId" v-model="respSuccess">
           </div>
-          <ul class="list">
-            <li class="">
-              <div class="todo-icon">
-                <font-awesome-icon icon="share"/>
-              </div>
-              <div class="todo-content">
-                <h4 class="todo-name">
-                  <strong>Request</strong>
-                </h4>
-                <button id="request" class="btn btn-info" v-on:click="handleRequest">
-                  Request
-                </button>
-                <div style="float: right; margin-right: 20px;">
-                  <div class="form-group">
-                    <input type="text" class="form-control d-inline" placeholder="Enter request id"
-                           id="reqId" style="margin-right: 5px;" v-model="reqId">
-                    <input type="text" class="form-control d-inline" placeholder="Enter flight id"
-                           id="flId" style="margin-right: 5px;" v-model="reqFlightId">
-                    <input type="text" class="form-control d-inline" placeholder="Enter passenger id"
-                           id="psgId" style="margin-right: 5px;" v-model="reqPassId">
-                  </div>
-                  <div class="form-group" style="margin-top: 10px;">
-                    <input type="text" class="form-control d-inline" placeholder="Number of seats"
-                           id="seatNum" style="margin-right: 5px;" v-model="reqNumSeats">
-                    <input type="text" class="form-control d-inline" placeholder="Destination Airline Address"
-                           id="dstAddr" style="margin-right: 5px;" v-model="reqDstAddr">
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li class="">
-              <div class="todo-icon">
-                <font-awesome-icon icon="reply"/>
-              </div>
-              <div class="todo-content">
-                <h4 class="todo-name">
-                  <strong>
-                    Response
-                  </strong>
-                </h4>
-                <button id="response" class="btn btn-info" v-on:click="handleResponse">
-                  Response
-                </button>
-                <div class="form-group d-inline" style="float: right; margin-right: 20px;">
-                  <input type="text" class="form-control d-inline" placeholder="Enter request id"
-                         id="respId" style="margin-right: 5px;" v-model="respReqId">
-                  <input type="text" class="form-control d-inline" placeholder="Is success? (true/false)"
-                         id="sccId" style="margin-right: 5px;" v-model="respSuccess">
-                  <input type="text" class="form-control d-inline" placeholder="Source Airline address"
-                         id="srcAddr" style="margin-right: 5px;" v-model="respSrcAddr">
-                </div>
-              </div>
-            </li>
-            <li class="">
-              <div class="todo-icon">
-                <font-awesome-icon icon="money-bill"/>
-              </div>
-              <div class="todo-content">
-                <h4 class="todo-name">
-                  <strong>Settle</strong>
-                </h4>
-                <button id="settle" class="btn btn-info" v-on:click="handleSettle">
-                  Settle payment
-                </button>
-                <div class="form-group d-inline" style="float: right; margin-right: 20px;">
-                  <input type="text" class="form-control d-inline" placeholder="Enter request id"
-                         id="stReqId" style="margin-right: 5px;" v-model="stReqId">
-                  <input type="text" class="form-control d-inline" placeholder="Number of seats"
-                         id="stSeats" style="margin-right: 5px;" v-model="stSeatsNum">
-                  <input type="text" class="form-control d-inline" placeholder="Destination airline address"
-                         id="stAddr" style="margin-right: 5px;" v-model="stAddr">
-                </div>
-              </div>
-            </li>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control d-inline" placeholder="Source Airline address"
+                   id="srcAddr" v-model="respSrcAddr">
+            <button id="response" class="btn btn-dark" v-on:click="handleResponse">
+              Response
+            </button>
+          </div>
 
-          </ul>
         </div>
-        <div class="todo-functions">
-          <div class="todo-search" style="border-radius: 6px; padding: 15px 25px;">
-            <div class="todo-icon" style="margin-top: 5px;">
-              <font-awesome-icon icon="handshake"/>
-            </div>
-            <p style="display: inline-block;">Replenish Escrow</p>
-            <button id="replenish" class="btn btn-info" style="margin-top: -4px;" v-on:click="handleReplenish">
+        <div class="row form-row">
+          <h4 class="todo-name">
+            Settle payment
+          </h4>
+          <div class="input-group mb-3">
+               <span class="input-group-text">
+                    <font-awesome-icon icon="money-bill"/>
+                </span>
+            <input type="text" class="form-control d-inline" placeholder="Enter request id"
+                   id="stReqId" v-model="stReqId">
+            <input type="text" class="form-control d-inline" placeholder="Number of seats"
+                   id="stSeats" v-model="stSeatsNum">
+          </div>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control d-inline" placeholder="Destination airline address"
+                   id="stAddr" v-model="stAddr">
+            <button id="settle" class="btn btn-dark" v-on:click="handleSettle">
+              Settle
+            </button>
+          </div>
+        </div>
+        <div class="row form-row">
+          <h4>
+            Replenish Escrow
+          </h4>
+          <div class="input-group mb-3">
+             <span class="input-group-text">
+                    <font-awesome-icon icon="handshake"/>
+                </span>
+            <input type="text" class="form-control d-inline" placeholder="Enter the amount"
+                   id="repl" v-model="rplAmt">
+            <button id="replenish" class="btn btn-dark"  v-on:click="handleReplenish">
               Replenish
             </button>
-            <div class="form-group d-inline" style="float: right; margin-right: 20px; margin-top: -4px;">
-              <input type="text" class="form-control d-inline" placeholder="Enter the amount"
-                     id="repl" style="margin-right: 5px;" v-model="rplAmt">
-            </div>
           </div>
         </div>
       </div>
@@ -211,15 +188,15 @@ export default {
       reqId: '',
       reqFlightId: '',
       reqPassId: '',
-      reqNumSeats: 0,
+      reqNumSeats: null,
       reqDstAddr: '',
       respReqId: '',
-      respSuccess: 'false',
+      respSuccess: '',
       respSrcAddr: '',
       stReqId: '',
-      stSeatsNum: 0,
+      stSeatsNum: null,
       stAddr: '',
-      rplAmt: 0,
+      rplAmt: null,
       ethUrl: "http://127.0.0.1:7545",
       dataUrl: "http://127.0.0.1:8020",
       web3: null,
@@ -339,7 +316,18 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.btn{
+.btn {
   width: 100px;
 }
+
+.form-row{
+  margin-top: 10px;
+
+}
+
+#ctr{
+  background-color: #ebeff2;
+}
+
+
 </style>
