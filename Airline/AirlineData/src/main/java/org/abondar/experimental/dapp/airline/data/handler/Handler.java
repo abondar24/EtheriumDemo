@@ -1,11 +1,15 @@
 package org.abondar.experimental.dapp.airline.data.handler;
 
+import io.vertx.core.http.HttpMethod;
 import io.vertx.core.json.JsonObject;
 import io.vertx.reactivex.ext.web.RoutingContext;
 import io.vertx.reactivex.ext.web.handler.BodyHandler;
+import io.vertx.reactivex.ext.web.handler.CorsHandler;
 import org.abondar.experimental.dapp.airline.data.service.SeatService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Set;
+
 
 import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.FLIGHT_ID_FIELD;
 import static org.abondar.experimental.dapp.airline.data.util.ApiUtil.LIMIT_PARAM;
@@ -23,6 +27,19 @@ public class Handler {
         this.seatService = seatService;
     }
 
+    public CorsHandler corsHandler() {
+
+        var httpMethods = Set.of(
+                HttpMethod.POST,
+                HttpMethod.PUT,
+                HttpMethod.GET,
+                HttpMethod.OPTIONS
+        );
+
+
+        return CorsHandler.create("*")
+                .allowedMethods(httpMethods);
+    }
 
     public BodyHandler bodyHandler() {
         return BodyHandler.create();

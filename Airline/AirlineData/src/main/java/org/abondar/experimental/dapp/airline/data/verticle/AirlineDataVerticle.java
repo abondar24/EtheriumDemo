@@ -31,6 +31,7 @@ public class AirlineDataVerticle extends AbstractVerticle {
         var handler = new Handler(seatService);
 
         var router = Router.router(vertx);
+        router.route().handler(handler.corsHandler());
         router.put()
                 .handler(handler.bodyHandler());
         router.put(SEATS_ENDPOINT).handler(handler::updateSeats);

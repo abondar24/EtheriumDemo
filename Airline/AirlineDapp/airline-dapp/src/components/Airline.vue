@@ -1,53 +1,51 @@
 <template>
   <div class="container">
+    <div class="alert alert-danger" role="alert" v-if="notification.length >0">
+      {{ notification }}
+    </div>
     <div class="row">
       <div class="col-lg-4">
         <h1 class="section-title"> Available Seats</h1>
         <div class="todo">
-          <ul class="list" id="flights">
-            <li>
-              <div class="todo-content">
-                <h4 class="todo-name">
-                  <strong>
-                    <span>FID</span>
-                    <span>Airline</span>
-                    <span>From</span>
-                    <span>To</span>
-                    <span class="depTime">DepTime</span>
-                    <span style="font-weight: 700;">AvailSeats</span>
-                  </strong>
-                </h4>
-              </div>
-            </li>
-            <li id="flight-data">
-              <div class="todo-content">
-                <h4 class="todo-name">
-                  <span>
-                    <strong>
-                      {{ flightId }}
-                    </strong>
-                  </span>
-                  <span>
-                    <strong>
-                      {{ airline }}
-                    </strong>
-                  </span>
-                  <span>
-                      {{ srcCity }}
-                  </span>
-                  <span>
-                      {{ dstCity }}
-                  </span>
-                  <span class="depTime">
-                    {{ depTime }}
-                  </span>
-                  <span class="seats">
-                    {{ seats }}
-                  </span>
-                </h4>
-              </div>
-            </li>
-          </ul>
+
+          <table class="table">
+            <thead>
+            <tr>
+              <th>FID</th>
+              <th>Airline</th>
+              <th>From</th>
+              <th>To</th>
+              <th class="depTime">DepTime</th>
+              <th style="font-weight: 700;">AvailSeats</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="flight in flights" :key="flight.id">
+              <td>
+                <strong>
+                  {{ flight.flightId }}
+                </strong>
+              </td>
+              <td>
+                <strong>
+                  {{ flight.airline }}
+                </strong>
+              </td>
+              <td>
+                {{ flight.srcCity }}
+              </td>
+              <td>
+                {{ flight.dstCity }}
+              </td>
+              <td class="depTime">
+                {{ flight.depTime }}
+              </td>
+              <td class="seats">
+                {{ seats }}
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </div>
       </div>
       <div class="col-lg-8">
@@ -66,7 +64,7 @@
                   <strong>Airlines Registration</strong>
                 </h4>
                 <button id="register" class="btn btn-info" v-on:click="handleRegister">
-                    Register
+                  Register
                 </button>
                 <div class="form-group d-inline" style="float: right; margin-right: 20px;">
                   <input type="text" class="form-control" placeholder="Enter deposit"
@@ -199,16 +197,17 @@
 </template>
 
 <script>
+import Web3 from 'web3'
+import axios from 'axios'
+import data from '../../Airline.json'
+import TruffleContract from 'truffle-contract'
+import Airline from "@/components/Airline";
+
 export default {
   name: 'Airline',
   data() {
     return {
-      flightId: 0,
-      airline: '',
-      srcCity: '',
-      dstCity: '',
-      depTime: '',
-      seats: 0,
+      notification: '',
       airlineDeposit: '',
       airlineAddress: '',
       reqId: '',
@@ -222,27 +221,118 @@ export default {
       stReqId: '',
       stSeatsNum: 0,
       stAddr: '',
-      rplAmt:0
+      rplAmt: 0,
+      ethUrl: "http://127.0.0.1:7545",
+      dataUrl: "http://127.0.0.1:8020",
+      web3: null,
+      contract: null,
+      flights: [],
+      requests: []
     }
+  },
+  mounted() {
+    const web3Provider = new Web3.providers.HttpProvider(this.ethUrl);
+    this.web3 = new Web3(web3Provider);
+
+    this.contract = TruffleContract(data);
+    this.contract.setProvider(web3Provider);
+
+
+    this.contract.deployed()
+        .then(function (instance) {
+          return instance;
+        })
+
+
+    axios.get(this.dataUrl + "/flights?offset=0&limit=6")
+        .then(response => {
+          this.flights = response.data.flights;
+        })
   },
   methods: {
     handleRegister() {
-
+      const deposit = this.airlineDeposit;
+      this.contract.deployed()
+          .then(function (instance) {
+            return instance.register({value: this.web3.toWei(deposit, "ether")});
+          })
+          .catch(err => this.notification = err.message)
     },
     handleUnregister() {
-
+      const addr = this.airlineAddress;
+      this.contract.deployed()
+          .then(function (instance) {
+            return instance.unregister(addr);
+          })
+          .catch(err => this.notification = err.message)
     },
     handleRequest() {
+      const reqId = this.reqId;
+      const flightId = this.reqFlightId;
+      const passId = this.reqPassId;
+      const numSeats = this.reqNumSeats;
+      const dstAddr = this.reqDstAddr;
 
+      this.contract.deployed()
+          .then(function (instance) {
+            return instance.request(reqId, flightId, passId, numSeats, dstAddr);
+          })
+          .catch(err => this.notification = err.message)
+
+      this.requests.push({
+        id: reqId,
+        flightId: flightId
+      })
     },
     handleResponse() {
+      const reqId = this.respReqId;
+      const success = this.respSuccess;
+      const srcAddr = this.respSrcAddr;
 
+      this.contract.deployed()
+          .then(function (instance) {
+            return instance.response(reqId, success, srcAddr);
+          })
+          .catch(err => this.notification = err.message)
     },
     handleSettle() {
+      const reqId = this.stReqId;
+      const seats = this.stSeatsNum;
+      const airline = this.stAddr;
 
+      const flightId = this.requests[reqId].flightId;
+
+      this.contract.deployed()
+          .then(function (instance) {
+            return instance.settlePayment(reqId, airline, seats);
+          })
+          .then(function () {
+                Airline.methods.updateSeats(seats,flightId)
+          })
+          .catch(err => this.notification = err.message)
     },
     handleReplenish() {
+       const amount = this.rplAmt;
 
+      this.contract.deployed()
+          .then(function (instance) {
+            return instance.replenishEscrow({ value: this.web3.toWei(amount, "ether") });
+          })
+          .catch(err => this.notification = err.message)
+    },
+    updateSeats(seats, flightId) {
+      const updFlights = this.flights;
+      axios.put(this.dataUrl + "/seats", {
+        "flightId": flightId,
+        "seats": seats
+      }).then(response => {
+        if (response.status === 200) {
+          updFlights[flightId].seats = seats;
+        }
+      })
+          .catch(err => this.notification = err.message);
+
+      this.flights = updFlights;
     }
   }
 }
