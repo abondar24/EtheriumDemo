@@ -9,9 +9,10 @@ import {faMoneyBill} from '@fortawesome/free-solid-svg-icons'
 import {faHandshake} from '@fortawesome/free-solid-svg-icons'
 import {faReply} from "@fortawesome/free-solid-svg-icons";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
+import {faAddressCard} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
-library.add(faPlane,faShare,faMoneyBill,faHandshake,faReply,faUser)
+library.add(faPlane,faShare,faMoneyBill,faHandshake,faReply,faUser,faAddressCard)
 
 
 createApp(App).component('font-awesome-icon', FontAwesomeIcon).mount('#app')

@@ -53,6 +53,17 @@
           </h4>
           <div class="input-group mb-3 ">
                 <span class="input-group-text">
+                  <font-awesome-icon icon="address-card"/>
+                </span>
+            <input type="text" class="form-control" placeholder="Enter address"
+                   id="address"
+                   v-model="senderAddress"/>
+          </div>
+
+        </div>
+        <div class="row form-row">
+          <div class="input-group mb-3 ">
+                <span class="input-group-text">
                   <font-awesome-icon icon="plane"/>
                 </span>
             <input type="text" class="form-control" placeholder="Enter deposit"
@@ -62,7 +73,6 @@
               Register
             </button>
           </div>
-
         </div>
         <div class="row form-row">
           <h4>
@@ -82,7 +92,7 @@
           </div>
 
         </div>
-        <div class="row form-row" >
+        <div class="row form-row">
           <h4 class="todo-name">
             Seat change request
           </h4>
@@ -161,7 +171,7 @@
                 </span>
             <input type="text" class="form-control d-inline" placeholder="Enter the amount"
                    id="repl" v-model="rplAmt">
-            <button id="replenish" class="btn btn-dark"  v-on:click="handleReplenish">
+            <button id="replenish" class="btn btn-dark" v-on:click="handleReplenish">
               Replenish
             </button>
           </div>
@@ -172,10 +182,10 @@
 </template>
 
 <script>
-//import Web3 from 'web3'
 import axios from 'axios'
-//import data from '../../Airline.json'
-//import TruffleContract from 'truffle-contract'
+import Web3 from 'web3'
+import data from '../../Airline.json'
+import TruffleContract from 'truffle-contract'
 //import Airline from "@/components/Airline";
 
 export default {
@@ -202,37 +212,46 @@ export default {
       web3: null,
       contract: null,
       flights: [],
-      requests: []
+      requests: [],
+      senderAddress: ''
     }
   },
   mounted() {
-    // const web3Provider = new Web3.providers.HttpProvider(this.ethUrl);
-    // this.web3 = new Web3(web3Provider);
-    //
-    // this.contract = TruffleContract(data);
-    // this.contract.setProvider(web3Provider);
-    //
-    //
-    // this.contract.deployed()
-    //     .then(function (instance) {
-    //       return instance;
-    //     })
+    const web3Provider = new Web3.providers.HttpProvider(this.ethUrl);
 
+    this.web3 = this.initWeb3(web3Provider)
+    this.contract = this.initContract(web3Provider);
 
-    axios.get(this.dataUrl + "/flights?offset=0&limit=6")
-        .then(response => {
-          this.flights = response.data.flights;
-        })
-        .catch(err => this.notification = err.message);
+    this.fetchAirlineData(0, 6)
   },
   methods: {
+    initWeb3(provider) {
+      return new Web3(provider)
+    },
+    initContract(provider) {
+      let contract = TruffleContract(data);
+      contract.setProvider(provider);
+
+      return contract;
+    },
+    fetchAirlineData(offset, limit) {
+      axios.get(this.dataUrl + "/flights?offset=" + offset + "&limit=" + limit)
+          .then(response => {
+            this.flights = response.data.flights;
+          })
+          .catch(err => this.notification = err.message);
+
+    },
     handleRegister() {
-      // const deposit = this.airlineDeposit;
-      // this.contract.deployed()
-      //     .then(function (instance) {
-      //       return instance.register({value: this.web3.toWei(deposit, "ether")});
-      //     })
-      //     .catch(err => this.notification = err.message)
+      const deposit = this.airlineDeposit;
+
+      const w3 = this.web3;
+      const frAddr = this.senderAddress;
+      this.contract.deployed()
+          .then(function (instance) {
+            return instance.register({value: w3.utils.toWei(deposit, "ether"),from:frAddr});
+          })
+          .catch(err => this.notification = err.message)
     },
     handleUnregister() {
       // const addr = this.airlineAddress;
@@ -320,12 +339,12 @@ export default {
   width: 100px;
 }
 
-.form-row{
+.form-row {
   margin-top: 10px;
 
 }
 
-#ctr{
+#ctr {
   background-color: #ebeff2;
 }
 
