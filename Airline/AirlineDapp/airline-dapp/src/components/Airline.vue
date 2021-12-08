@@ -278,33 +278,37 @@ export default {
 
 
     handleRequest() {
-      // const reqId = this.reqId;
-      // const flightId = this.reqFlightId;
-      // const passId = this.reqPassId;
-      // const numSeats = this.reqNumSeats;
-      // const dstAddr = this.reqDstAddr;
-      //
-      // this.contract.deployed()
-      //     .then(function (instance) {
-      //       return instance.request(reqId, flightId, passId, numSeats, dstAddr);
-      //     })
-      //     .catch(err => this.notification = err.message)
-      //
-      // this.requests.push({
-      //   id: reqId,
-      //   flightId: flightId
-      // })
+      const reqId = this.reqId;
+      const flightId = this.reqFlightId;
+      const passId = this.reqPassId;
+      const numSeats = this.reqNumSeats;
+      const dstAddr = this.reqDstAddr;
+      const chair = this.chairperson;
+
+      this.contract.deployed()
+          .then(function (instance) {
+            return instance.request(reqId, flightId, passId, numSeats, dstAddr,{from:chair});
+          })
+          .catch(err => this.notification = err.message)
+
+      this.requests.push({
+        id: reqId,
+        flightId: flightId
+      })
     },
     handleResponse() {
-      // const reqId = this.respReqId;
-      // const success = this.respSuccess;
-      // const srcAddr = this.respSrcAddr;
-      //
-      // this.contract.deployed()
-      //     .then(function (instance) {
-      //       return instance.response(reqId, success, srcAddr);
-      //     })
-      //     .catch(err => this.notification = err.message)
+      const reqId = this.respReqId;
+      const success = this.respSuccess;
+      const srcAddr = this.respSrcAddr;
+      const chair = this.chairperson;
+
+      if (success==='true'){
+        this.contract.deployed()
+            .then(function (instance) {
+              return instance.response(reqId, success, srcAddr,{from:chair});
+            })
+            .catch(err => this.notification = err.message)
+      }
     },
     handleSettle() {
       // const reqId = this.stReqId;
