@@ -1,7 +1,8 @@
 <template>
   <div class="container">
-    <div class="alert alert-danger" role="alert" v-if="notification.length >0">
+    <div class="alert alert-danger alert-dismissible " role="alert" v-if="notification.length >0">
       {{ notification }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <div class="row" id="ctr">
       <div class="col-md-7">
@@ -213,7 +214,8 @@ export default {
       contract: null,
       flights: [],
       requests: [],
-      senderAddress: ''
+      senderAddress: '',
+      chairperson: ''
     }
   },
   mounted() {
@@ -221,6 +223,7 @@ export default {
 
     this.web3 = this.initWeb3(web3Provider)
     this.contract = this.initContract(web3Provider);
+    this.fetchChairperson()
 
     this.fetchAirlineData(0, 6)
   },
@@ -233,6 +236,10 @@ export default {
       contract.setProvider(provider);
 
       return contract;
+    },
+    fetchChairperson() {
+      this.web3.eth.getAccounts()
+          .then(acc => this.chairperson = acc[0]);
     },
     fetchAirlineData(offset, limit) {
       axios.get(this.dataUrl + "/flights?offset=" + offset + "&limit=" + limit)
@@ -249,18 +256,27 @@ export default {
       const frAddr = this.senderAddress;
       this.contract.deployed()
           .then(function (instance) {
-            return instance.register({value: w3.utils.toWei(deposit, "ether"),from:frAddr});
+            return instance.register({value: w3.utils.toWei(deposit, "ether"), from: frAddr});
           })
           .catch(err => this.notification = err.message)
     },
     handleUnregister() {
-      // const addr = this.airlineAddress;
-      // this.contract.deployed()
-      //     .then(function (instance) {
-      //       return instance.unregister(addr);
-      //     })
-      //     .catch(err => this.notification = err.message)
+      const addr = this.airlineAddress;
+      const chair = this.chairperson;
+      this.contract.deployed()
+          .then(function (instance) {
+
+            return instance.unregister(addr,{from:chair});
+          })
+          .then(function (result) {
+            console.log(result)
+          })
+          .catch(err => {
+            this.notification = err.message
+          })
     },
+
+
     handleRequest() {
       // const reqId = this.reqId;
       // const flightId = this.reqFlightId;
