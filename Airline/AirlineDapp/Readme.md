@@ -8,6 +8,10 @@ Access: http://localhost:8080/
 ```
 ../gradlew clean build
 
-java -jar build/libs/AirlineDapp-1.0-SNAPSHOT-all.jar 
+java -jar build/libs/AirlineDapp-all.jar 
 ```
 Frontend build and dev server run check [here](airline-dapp/README.md)
+
+## Note
+
+- Frontend is not perfect and has some issues
