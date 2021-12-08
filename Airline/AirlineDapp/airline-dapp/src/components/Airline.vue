@@ -336,8 +336,8 @@ export default {
       const updFlights = this.flights;
       console.log(flightId)
       axios.put(this.dataUrl + "/seats", {
-        "flightId": flightId,
-        "seats": seats
+        "flightId": Number(flightId),
+        "seats": Number(seats)
       }).then(response => {
         if (response.status === 200) {
           updFlights[flightId].seats = seats;
